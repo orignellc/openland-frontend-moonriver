@@ -17,7 +17,7 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <h2 className='text-green-900'>HELLO WORLD!</h2>
+        <h2 className='text-green-900 bg-color-primary font-inter'>HELLO WORLD!</h2>
 
         <p className={styles.description}>
           Get started by editing{' '}
