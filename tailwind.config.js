@@ -4,6 +4,9 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      '2xl': "1400px",
+    },
     extend: {
       colors: {
         "color-primary": "#0FB95D",
@@ -12,6 +15,9 @@ module.exports = {
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
+      },
+      borderRadius: {
+        main: "50px",
       },
     },
   },
