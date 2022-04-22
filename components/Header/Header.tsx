@@ -5,7 +5,7 @@ import Logo from "../../public/assets/images/svg/logo-text.svg";
 import Avatar from "../../public/assets/images/svg/avatar.svg";
 import MagnifyingGlass from "../../public/assets/images/svg/magnifying-glass.svg";
 import SettingGear from "../../public/assets/images/svg/settings-gear.svg";
-import Button from "../UI/Button/Button";
+import Button from "../ui/Button/Button";
 
 const styles = {
   nav: "bg-[#ffffff] z-[50] fixed w-full h-[93px] px-[40px] 2xl:px-[50px]",
