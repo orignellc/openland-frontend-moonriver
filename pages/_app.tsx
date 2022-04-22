@@ -1,13 +1,13 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 
-import Wrapper from "../components/HOC/Wrapper/Wrapper";
+import Layout from "../components/HOC/Layout/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Wrapper>
+    <Layout>
       <Component {...pageProps} />
-    </Wrapper>
+    </Layout>
   );
 }
 
