@@ -72,14 +72,7 @@ const Header = () => {
             </ul>
           </li>
           <li>
-            <Button
-              btnType="outline"
-              fontSize="2xl:font-[18px] font-[14px]"
-              fontWeight="font-semibold"
-              padding="py-[17px] px-[40px]"
-            >
-              Buy Fractions
-            </Button>
+            <Button btnType="outline">Buy Fractions</Button>
           </li>
           <li className="2xl:w-[52px] w-[47px] h-[47px] 2xl:h-[52px] rounded-[100px] bg-[#F7F8F8] grid place-content-center overflow-hidden">
             <Image src={SettingGear} alt="settings" width="22" height="22" />

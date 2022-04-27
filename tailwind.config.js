@@ -4,10 +4,8 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    screens: {
-      '2xl': "1400px",
-    },
     extend: {
+      screens: { "2xl": "1400px" },
       colors: {
         "color-primary": "#0FB95D",
         "color-secondary": "#3F5448",

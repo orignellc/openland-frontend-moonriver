@@ -12,7 +12,7 @@ const Wrapper: FC<WrapperProps> = (props) => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main className="pt-[93px]">{children}</main>
       <Footer />
     </>

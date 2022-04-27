@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 
 import FeaturesCard from "../components/pages/index/FeaturesCard/FeaturesCard";
 import AffordableIcon from "../public/assets/images/svg/affordable.svg";
@@ -7,6 +8,8 @@ import truthlessIcon from "../public/assets/images/svg/truthless.svg";
 import daoIcon from "../public/assets/images/svg/dao.svg";
 import commodityIcon from "../public/assets/images/svg/commodity.svg";
 import PropertiesCard from "../components/pages/index/PropertiesCard/PropertiesCard";
+import Button from "../components/ui/Button/Button";
+import TeamCard from "../components/TeamCard/TeamCard";
 
 const Home: NextPage = () => {
   return (
@@ -18,11 +21,21 @@ const Home: NextPage = () => {
       </Head>
 
       {/* HERO SECTION */}
-      <header className="w-full h-[80vh] bg-red-50 relative">
-        <img
-          src="/assets/images/png/hero.png"
-          className="w-full h-full object-cover"
-        />
+      <header className="w-full h-[80vh] lg:h-[100vh] grid place-content-center bg-[url('/assets/images/png/hero.png')]">
+        <div className="2xl:w-[710px] w-[345px] lg:w-[648px]">
+          <h1 className="mb-[33px] font-bold 2xl:text-[70px] text-[36px] lg:text-[64px] text-center text-white">
+            Own &amp; Trade Fractions of Land
+          </h1>
+          <p className="text-base lg:text-xl text-center text-white 2xl:text-[26px] mb-8 lg:mb-[96px]">
+            OpenLand is the most open platform for buying, selling and earning
+            returns on land assets on the blockchain.
+          </p>
+          <div className="flex-col lg:flex-row flex justify-between">
+            <Button btnType="fill">List your property</Button>
+            <div className="mb-4 lg:mb-0 lg:hidden" />
+            <Button btnType="outline">Explore Properties</Button>
+          </div>
+        </div>
       </header>
 
       {/* FEATURES */}
@@ -56,6 +69,11 @@ const Home: NextPage = () => {
           * The values mentioned are just for examples only and do not mean
           actual ownership figures in a particular vault.
         </p>
+        <div className="flex-col lg:flex-row flex w-full lg:w-[550px] mx-auto justify-between">
+          <Button btnType="fill">List your property</Button>
+          <div className="mb-4 lg:mb-0 lg:hidden" />
+          <Button btnType="outline">Explore Properties</Button>
+        </div>
       </section>
 
       {/* FEATURED PROPERTIES */}
@@ -70,7 +88,9 @@ const Home: NextPage = () => {
             </p>
           </div>
 
-          <span>BUTTON</span>
+          <div className="hidden lg:block">
+            <Button btnType="outline-white">View all</Button>
+          </div>
         </div>
 
         <div className={styles.featuredPropertiesCardContainer}>
@@ -78,19 +98,77 @@ const Home: NextPage = () => {
             return <PropertiesCard key={idx} property={property} />;
           })}
         </div>
+
+        <div className="grid place-content-center lg:hidden">
+          <Button btnType="outline-white">View all</Button>
+        </div>
       </section>
 
-      <section className="bg-[#F9F9F9] py-[120px] px-[70px]">
-          <h3 className="font-semibold text-[42px] mb-20">Built on</h3>
+      <section className="bg-[#F9F9F9] py-[120px] px-4 lg:px-[70px]">
+        <h3 className="font-semibold text-[42px] text-center lg:text-left mb-20">Built on</h3>
 
-          <div className="flex items-center">
-            <img src="/assets/images/svg/moonriver.svg" className="w-[511px] h-[108px]" alt="moon_river" />
-            <img src="/assets/images/svg/moonbeam.svg" className="w-[571px] h-[160px]" alt="moon_beam" />
-          </div>
+        <div className="flex lg:flex-row flex-col items-center">
+          <img
+            src="/assets/images/svg/moonriver.svg"
+            className="w-[511px] h-[108px]"
+            alt="moon_river"
+          />
+          <img
+            src="/assets/images/svg/moonbeam.svg"
+            className="w-[571px] h-[160px]"
+            alt="moon_beam"
+          />
+        </div>
+      </section>
+
+      <section className="py-[120px] px-4 lg:px-[70px]">
+        <h3 className="mb-[27px] font-semibold text-[42px]">
+          The Team behind OpenLand
+        </h3>
+
+        <p className="text-lg text-[#555555]">
+          OpenLand was built with love for Africa{" "}
+          <span className="text-red-500">&hearts;</span>{" "}
+          <span className="text-sm">Powered by</span>{" "}
+          <Link href="#">
+            <a className="font-normal text-lg text-black underline">
+              Origne LLC
+            </a>
+          </Link>
+        </p>
+
+        <div className="mt-[75px] flex flex-wrap">
+          {TEAMS.map((team) => (
+            <TeamCard team={team} key={team.name} />
+          ))}
+        </div>
       </section>
     </>
   );
 };
+
+const TEAMS = [
+  {
+    image: "/assets/images/png/avatar.png",
+    name: "Oluwafemi Alofe",
+    title: "Blockchain Developer",
+  },
+  {
+    image: "/assets/images/png/avatar.png",
+    name: "Emmanuel Joseph",
+    title: "Fullstack Developer",
+  },
+  {
+    image: "/assets/images/png/avatar.png",
+    name: "Paul Oladimeji",
+    title: "Product Manager",
+  },
+  {
+    image: "/assets/images/png/avatar.png",
+    name: "Abosede Mayungbe",
+    title: "Product Designer",
+  },
+];
 
 const APPLICATION_FEATURES = [
   {
@@ -175,22 +253,24 @@ const FEATURED_PROPERTIES = [
 ];
 
 const styles = {
-  featuresContainer: "py-[120px] bg-color-tertiary",
+  featuresContainer: "lg:py-[120px] py-[64px] bg-color-tertiary",
   featuresHeading: "mb-16",
   featuresHeadingText: "font-semibold text-[42px] text-center mb-3",
-  featuresHeadingDescription: "max-w-3xl mx-auto text-center",
-  FeaturesCardContainer: "grid gap-6 grid-cols-4 mx-[70px]",
-  descriptionImageContainer: "py-[120px]",
-  descriptionImageContainer_: "2xl:w-[1137px] w-[1039px] mx-auto mb-[62px]",
+  featuresHeadingDescription:
+    "max-w-3xl text-[18px] text-[#555555] px-4 mx-auto text-center",
+  FeaturesCardContainer: "flex flex-wrap mx-[16px] lg:mx-[70px]",
+  descriptionImageContainer: "lg:py-[120px] py-[60px] lg:px-0 px-[16px]",
+  descriptionImageContainer_:
+    "2xl:w-[1137px] w-full lg:w-[1039px] mx-auto mb-[62px]",
   descriptionImage: "w-full h-full object-cover",
   descriptionImageDescription:
-    "ml-auto text-right max-w-[543px] 2xl:max-w-[597px] mr-[70px] text-[#999999] text-sm",
+    "ml-auto text-right max-w-[543px] 2xl:max-w-[597px] lg:mr-[70px] text-[#999999] text-xs lg:text-sm mb-[70px]",
   featuredPropertiesContainer:
-    "bg-color-secondary px-16 2xl:px-[72px] py-[120px]",
+    "bg-color-secondary px-[16px] 2xl:px-[72px] py-[60px] lg:py-[120px]",
   featuredPropertiesContainer_: "mb-[82px] flex items-center justify-between",
   featuredPropertiesContainerHeading: "text-[42px] font-semibold text-white",
   featuredPropertiesContainerDescription: "text-lg text-white",
-  featuredPropertiesCardContainer: "grid grid-cols-3",
+  featuredPropertiesCardContainer: "flex flex-wrap",
 };
 
 export default Home;
