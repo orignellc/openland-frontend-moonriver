@@ -258,7 +258,7 @@ const styles = {
   featuresHeadingText: "font-semibold text-[42px] text-center mb-3",
   featuresHeadingDescription:
     "max-w-3xl text-[18px] text-[#555555] px-4 mx-auto text-center",
-  FeaturesCardContainer: "flex flex-wrap mx-[16px] lg:mx-[70px]",
+  FeaturesCardContainer: "flex w-full flex-wrap px-[16px] lg:px-[70px]",
   descriptionImageContainer: "lg:py-[120px] py-[60px] lg:px-0 px-[16px]",
   descriptionImageContainer_:
     "2xl:w-[1137px] w-full lg:w-[1039px] mx-auto mb-[62px]",
