@@ -21,7 +21,7 @@ const Home: NextPage = () => {
       </Head>
 
       {/* HERO SECTION */}
-      <header className="w-full h-[80vh] lg:h-[100vh] grid place-content-center bg-[url('/assets/images/png/hero.png')]">
+      <header className="w-full h-[80vh] lg:h-[100vh] grid place-content-center bg-no-repeat bg-cover bg-[url('/assets/images/png/hero.png')]">
         <div className="2xl:w-[710px] w-[345px] lg:w-[648px]">
           <h1 className="mb-[33px] font-bold 2xl:text-[70px] text-[36px] lg:text-[64px] text-center text-white">
             Own &amp; Trade Fractions of Land
