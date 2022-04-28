@@ -95,7 +95,7 @@ const Header: FC<HeaderProps> = (props) => {
             </Link>
           </li>
 
-          <div className="cursor-pointer" onClick={toggleSidenav}>
+          <div className="cursor-pointer lg:hidden" onClick={toggleSidenav}>
             <div className="w-[18px] h-[2px] bg-black my-1" />
             <div className="w-[18px] h-[2px] bg-black my-1" />
             <div className="w-[18px] h-[2px] bg-black my-1" />
