@@ -1,3 +1,4 @@
+import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,11 +9,17 @@ import SettingGear from "../../public/assets/images/svg/settings-gear.svg";
 import Button from "../ui/Button/Button";
 
 const styles = {
-  nav: "bg-[#ffffff] z-[50] fixed w-full h-[93px] px-[40px] 2xl:px-[50px]",
+  nav: "bg-[#ffffff] z-[50] fixed w-full h-[93px] px-4 lg:px-[40px] 2xl:px-[50px]",
   navItems: "flex w-full items-center justify-between h-full",
 };
 
-const Header = () => {
+interface HeaderProps {
+  toggleSidenav: () => void;
+}
+
+const Header: FC<HeaderProps> = (props) => {
+  const { toggleSidenav } = props;
+
   return (
     <>
       <nav className={styles.nav}>
@@ -28,7 +35,7 @@ const Header = () => {
               />
             </Link>
           </li>
-          <li className="">
+          {/* <li className="">
             <ul className="relative">
               <li className="absolute top-[55%] -translate-y-1/2 left-[32px]">
                 <Image
@@ -42,12 +49,12 @@ const Header = () => {
                 <input
                   type="text"
                   placeholder="search by property name or development company"
-                  className="2xl:w-[391px] focus:outline-none w-[357px] h-[55px] font-medium text-xs rounded-[50px] pl-[64px] pr-[32px] bg-color-tertiary"
+                  className="2xl:w-[391px] focus:outline-none w-[42px] h-[42px] rounded-[50%] lg:w-[357px] lg:h-[55px] font-medium text-xs lg:rounded-[50px] pl-[64px] pr-[32px] bg-color-tertiary"
                 />
               </li>
             </ul>
-          </li>
-          <li>
+          </li> */}
+          <li className="hidden lg:block">
             <ul className="flex text-[#555555] text-xs 2xl:text-sm">
               <li>
                 <Link href="#">
@@ -71,13 +78,13 @@ const Header = () => {
               </li>
             </ul>
           </li>
-          <li>
+          <li className="hidden lg:block">
             <Button btnType="outline">Buy Fractions</Button>
           </li>
           <li className="2xl:w-[52px] w-[47px] h-[47px] 2xl:h-[52px] rounded-[100px] bg-[#F7F8F8] grid place-content-center overflow-hidden">
             <Image src={SettingGear} alt="settings" width="22" height="22" />
           </li>
-          <li className="2xl:w-[52px] w-[47px] h-[47px] 2xl:h-[52px]">
+          <li className="2xl:w-[52px] w-[47px] h-[47px] 2xl:h-[52px] hidden lg:block">
             <Link href="#">
               <Image
                 src={Avatar}
@@ -87,6 +94,12 @@ const Header = () => {
               />
             </Link>
           </li>
+
+          <div className="cursor-pointer" onClick={toggleSidenav}>
+            <div className="w-[18px] h-[2px] bg-black my-1" />
+            <div className="w-[18px] h-[2px] bg-black my-1" />
+            <div className="w-[18px] h-[2px] bg-black my-1" />
+          </div>
         </ul>
       </nav>
     </>
