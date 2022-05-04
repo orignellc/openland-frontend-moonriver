@@ -1,6 +1,7 @@
 import { FC, useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ethers } from "ethers";
 
 import Logo from "../../public/assets/images/svg/logo-text.svg";
 import Avatar from "../../public/assets/images/svg/avatar.svg";
@@ -34,6 +35,13 @@ const Header: FC<HeaderProps> = (props) => {
   const toggleShowdropdown = () => setShowdropdown((prevState) => !prevState);
   const toggleConnectWalletModal = () =>
     setShowConnectWalletModal((prevState) => !prevState);
+
+  const connectMetamask = () => {
+    if (typeof window !== undefined) {
+      // @ts-ignore
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+    }
+  };
 
   return (
     <>
