@@ -123,7 +123,7 @@ const Sidenav: FC<SidenavProps> = (props) => {
       </div>
 
       <div className="px-4 flex justify-center">
-        <Button btnType="fill">Connect wallet</Button>
+        <Button link="#" btnType="fill">Connect wallet</Button>
       </div>
     </aside>
   );

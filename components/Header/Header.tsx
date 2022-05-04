@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,6 +7,10 @@ import Avatar from "../../public/assets/images/svg/avatar.svg";
 import MagnifyingGlass from "../../public/assets/images/svg/magnifying-glass.svg";
 import SettingGear from "../../public/assets/images/svg/settings-gear.svg";
 import Button from "../ui/Button/Button";
+import Backdrop from "../ui/Backdrop/Backdrop";
+import ConnectWalletModal from "../ConnectWalletModal/ConnectWalletModal";
+import Dropdown from "./Dropdown";
+import { AuthContext } from "../../context/Context";
 
 const styles = {
   nav: "bg-[#ffffff] z-[50] fixed w-full h-[93px] px-4 lg:px-[40px] 2xl:px-[50px]",
@@ -18,10 +22,26 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = (props) => {
+  const {
+    state: { user },
+    dispatch,
+  } = useContext(AuthContext);
+
   const { toggleSidenav } = props;
+  const [showDropdown, setShowdropdown] = useState(false);
+  const [showConnectWalletModal, setShowConnectWalletModal] = useState(false);
+
+  const toggleShowdropdown = () => setShowdropdown((prevState) => !prevState);
+  const toggleConnectWalletModal = () =>
+    setShowConnectWalletModal((prevState) => !prevState);
 
   return (
     <>
+      <Backdrop showBackdrop={showConnectWalletModal}>
+        <ConnectWalletModal
+          toggleConnectWalletModal={toggleConnectWalletModal}
+        />
+      </Backdrop>
       <nav className={styles.nav}>
         <ul className={styles.navItems}>
           <li>
@@ -35,7 +55,7 @@ const Header: FC<HeaderProps> = (props) => {
               />
             </Link>
           </li>
-          {/* <li className="">
+          <li className="">
             <ul className="relative">
               <li className="absolute top-[55%] -translate-y-1/2 left-[32px]">
                 <Image
@@ -53,7 +73,7 @@ const Header: FC<HeaderProps> = (props) => {
                 />
               </li>
             </ul>
-          </li> */}
+          </li>
           <li className="hidden lg:block">
             <ul className="flex text-[#555555] text-xs 2xl:text-sm">
               <li>
@@ -71,29 +91,52 @@ const Header: FC<HeaderProps> = (props) => {
                   <a className="mx-[24px] 2xl:mx-8">How It works</a>
                 </Link>
               </li>
-              <li>
+              <li
+                className="flex cursor-pointer items-center relative"
+                onMouseEnter={toggleShowdropdown}
+                onMouseLeave={toggleShowdropdown}
+              >
                 <Link href="#">
                   <a className="mx-[24px] 2xl:mx-8">More</a>
                 </Link>
+                <img
+                  src="/assets/images/svg/drop-down.svg"
+                  alt="more"
+                  className="w-3 h-[6px]"
+                />
+                {showDropdown && <Dropdown />}
               </li>
             </ul>
           </li>
-          <li className="hidden lg:block">
-            <Button btnType="outline">Buy Fractions</Button>
-          </li>
+          {!user && (
+            <li className="hidden lg:block">
+              <Button onClick={toggleConnectWalletModal} btnType="fill">
+                Connect wallet
+              </Button>
+            </li>
+          )}
+          {user && (
+            <li className="hidden lg:block">
+              <Button link="/choose-property" btnType="outline">
+                Buy Fractions
+              </Button>
+            </li>
+          )}
           <li className="2xl:w-[52px] w-[47px] h-[47px] 2xl:h-[52px] rounded-[100px] bg-[#F7F8F8] grid place-content-center overflow-hidden">
             <Image src={SettingGear} alt="settings" width="22" height="22" />
           </li>
-          <li className="2xl:w-[52px] w-[47px] h-[47px] 2xl:h-[52px] hidden lg:block">
-            <Link href="#">
-              <Image
-                src={Avatar}
-                layout={"responsive"}
-                className="cursor-pointer"
-                alt="user-avatar"
-              />
-            </Link>
-          </li>
+          {user && (
+            <li className="2xl:w-[52px] w-[47px] h-[47px] 2xl:h-[52px] hidden lg:block">
+              <Link href="#">
+                <Image
+                  src={Avatar}
+                  layout={"responsive"}
+                  className="cursor-pointer"
+                  alt="user-avatar"
+                />
+              </Link>
+            </li>
+          )}
 
           <div className="cursor-pointer lg:hidden" onClick={toggleSidenav}>
             <div className="w-[18px] h-[2px] bg-black my-1" />

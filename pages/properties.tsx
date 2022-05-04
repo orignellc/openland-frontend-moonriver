@@ -26,7 +26,7 @@ const Properties = () => (
     </div>
 
     <div className="grid place-content-center mb-[120px] mt-12">
-      <Button btnType="outline">Load More</Button>
+      <Button link="#" btnType="outline">Load More</Button>
     </div>
   </div>
 );
