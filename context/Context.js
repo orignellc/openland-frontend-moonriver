@@ -9,7 +9,7 @@ import {
 
 // STATE
 const intialState = {
-  user: null,
+  user: {},
 };
 
 // CREATE CONTEXT
