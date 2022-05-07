@@ -82,7 +82,7 @@ const UploadPropertyModal: FC<UploadPropertyModal> = (props) => {
 
         <h4 className="text-[#111827] mb-1">Notifications</h4>
         <p className="text-[#777B76]">
-          We'll always let you know about important changes, but you pick what
+          We&apos;ll always let you know about important changes, but you pick what
           else you want to hear about.
         </p>
 

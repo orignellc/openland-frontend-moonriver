@@ -1,4 +1,4 @@
-import { FC, useContext, useState, useEffect } from "react";
+import { FC, useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ethers } from "ethers";
@@ -35,10 +35,6 @@ const Header: FC<HeaderProps> = (props) => {
   const toggleShowdropdown = () => setShowdropdown((prevState) => !prevState);
   const toggleConnectWalletModal = () =>
     setShowConnectWalletModal((prevState) => !prevState);
-
-  useEffect(() => {
-    console.log(user)
-  })
 
   const connectToMetamask = async () => {
     if (typeof window !== "undefined") {
