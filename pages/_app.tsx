@@ -8,6 +8,7 @@ import { AuthProvider } from "../context/Context";
 import Backdrop from "../components/ui/Backdrop/Backdrop";
 import { useState } from "react";
 import PropertyUploadSuccessModal from "../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
+import UploadedProperties from "../components/UploadedProperties/UploadedProperties";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider: any) => {
@@ -20,6 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
+          <Backdrop showBackdrop={show}>
+            <UploadedProperties />
+          </Backdrop>
           <Component {...pageProps} />
         </Layout>
       </Web3ReactProvider>
