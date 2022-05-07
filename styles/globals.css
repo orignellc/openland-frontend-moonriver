@@ -10,3 +10,43 @@ body {
   margin: 0;
   font-family: "Inter", sans-serif;
 }
+
+.pulse-circle {
+  height: 92px;
+  width: 92px;
+  background: rgba(227, 252, 239, 0.788);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  /* background: green; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.pulse-circle:before,
+.pulse-circle:after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #E3FCEF;
+  border-radius: 50%;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.pulse-circle:before {
+  animation: pulse-animate 2s ease-out infinite;
+}
+.pulse-circle:before {
+  animation: pulse-animate 2s 1s ease-out infinite;
+}
+
+@keyframes pulse-animate {
+  100% {
+    transform: scale(1.35);
+  }
+}
