@@ -33,7 +33,7 @@ const Properties = () => (
 
 const FEATURED_PROPERTIES = [
   {
-    image: "/assets/images/png/image-1.png",
+    image: "/assets/images/png/Image-1.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -42,7 +42,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-2.png",
+    image: "/assets/images/png/Image-2.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -51,7 +51,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-3.png",
+    image: "/assets/images/png/Image-3.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -60,7 +60,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-4.png",
+    image: "/assets/images/png/Image-4.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -69,7 +69,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-5.png",
+    image: "/assets/images/png/Image-5.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -78,7 +78,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-6.png",
+    image: "/assets/images/png/Image-6.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -87,7 +87,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-1.png",
+    image: "/assets/images/png/Image-1.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -96,7 +96,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-2.png",
+    image: "/assets/images/png/Image-2.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -105,7 +105,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-3.png",
+    image: "/assets/images/png/Image-3.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -114,7 +114,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-4.png",
+    image: "/assets/images/png/Image-4.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -123,7 +123,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-5.png",
+    image: "/assets/images/png/Image-5.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
@@ -132,7 +132,7 @@ const FEATURED_PROPERTIES = [
     sqm: "8,000",
   },
   {
-    image: "/assets/images/png/image-6.png",
+    image: "/assets/images/png/Image-6.png",
     name: "Angol Estate",
     location: "Epe, Lagos",
     amountPerFraction: "20",
