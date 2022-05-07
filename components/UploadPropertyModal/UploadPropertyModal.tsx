@@ -17,10 +17,15 @@ const UploadPropertyModal: FC<UploadPropertyModal> = (props) => {
 
   if (!showUploadPropertyModal) return <></>;
 
+  const formSubmitHandler = async () => {
+    // SUBMIT THE FORM
+    setConfirmationModal(false)
+  }
+
   return (
     <>
       <Backdrop showBackdrop={confirmationModal}>
-        <UploadPropertyConfirmationModal />
+        <UploadPropertyConfirmationModal formSubmitHandler={formSubmitHandler} />
       </Backdrop>
       <div className="px-[134px] py-[137px] top-0 left-0 fixed z-[60] bg-white w-screen h-screen overflow-y-scroll">
         <div className="flex justify-between">
