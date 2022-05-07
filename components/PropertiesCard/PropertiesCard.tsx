@@ -10,6 +10,7 @@ interface PropertiesCardProps {
     fraction: string;
     fractionLeft: string;
   };
+  verificationBadge?: boolean
 }
 
 const PropertiesCard: FC<PropertiesCardProps> = (props) => {
@@ -23,10 +24,14 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
       fraction,
       fractionLeft,
     },
+    verificationBadge
   } = props;
 
   return (
     <div className={styles.propertiesCardContainer}>
+      {verificationBadge && <div className="font-semibold absolute z-50 top-[30px] bg-white text-[#555555] left-[30px] px-6 py-[10px] rounded-[30px] border border-[#F2B705] text-[13.5px]">
+        Not Verified
+      </div>}
       <img
         src={image}
         alt="land"

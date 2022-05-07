@@ -8,7 +8,7 @@ import AffordableIcon from "../public/assets/images/svg/affordable.svg";
 import truthlessIcon from "../public/assets/images/svg/truthless.svg";
 import daoIcon from "../public/assets/images/svg/dao.svg";
 import commodityIcon from "../public/assets/images/svg/commodity.svg";
-import PropertiesCard from "../components/pages/index/PropertiesCard/PropertiesCard";
+import PropertiesCard from "../components/PropertiesCard/PropertiesCard";
 import Button from "../components/ui/Button/Button";
 import TeamCard from "../components/TeamCard/TeamCard";
 import ChoosePropertyModal from "../components/ChoosePropertyModal/ChoosePropertyModal";

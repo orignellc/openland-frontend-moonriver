@@ -1,4 +1,4 @@
-import PropertiesCard from "../components/pages/index/PropertiesCard/PropertiesCard";
+import PropertiesCard from "../components/PropertiesCard/PropertiesCard";
 import Button from "../components/ui/Button/Button";
 
 const Properties = () => (
