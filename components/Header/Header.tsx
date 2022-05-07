@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ethers } from "ethers";
@@ -36,10 +36,29 @@ const Header: FC<HeaderProps> = (props) => {
   const toggleConnectWalletModal = () =>
     setShowConnectWalletModal((prevState) => !prevState);
 
-  const connectMetamask = () => {
-    if (typeof window !== undefined) {
+  useEffect(() => {
+    console.log(user)
+  })
+
+  const connectToMetamask = async () => {
+    if (typeof window !== "undefined") {
       // @ts-ignore
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      if (!window.ethereum) { // Checking if the user has metamask
+        return alert("Please you need to have metamask installed");
+      }
+
+      // @ts-ignore
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      // Update our global application state
+      dispatch({
+        type: "LOGGED_IN_USER",
+        payload: accounts[0]
+      })
+
+      setShowConnectWalletModal(false)
     }
   };
 
@@ -48,6 +67,7 @@ const Header: FC<HeaderProps> = (props) => {
       <Backdrop showBackdrop={showConnectWalletModal}>
         <ConnectWalletModal
           toggleConnectWalletModal={toggleConnectWalletModal}
+          connectToMetamask={connectToMetamask}
         />
       </Backdrop>
       <nav className={styles.nav}>

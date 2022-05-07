@@ -5,25 +5,11 @@ import { useWeb3React } from "@web3-react/core";
 interface ConnectionCardProps {
   connectionImg: string;
   providerName: string;
+  connectToMetamask: () => Promise<void>
 }
 
 const ConnectionCard: FC<ConnectionCardProps> = (props) => {
-  const { connectionImg, providerName } = props;
-  const { active, account, library, connector, activate, deactivate } =
-    useWeb3React();
-
-  const metamaskConnector = new InjectedConnector({
-    supportedChainIds: [1, 3, 4, 5, 42],
-  });
-
-  const connectToMetamask = async () => {
-    try {
-      const wallet = await activate(metamaskConnector);
-      console.log("THE CONNECTED WALLET", wallet);
-    } catch (error) {
-      console.log("THE CONNECTION ERROR", error);
-    }
-  };
+  const { connectionImg, providerName, connectToMetamask } = props;
 
   return (
     <div
@@ -42,10 +28,11 @@ const ConnectionCard: FC<ConnectionCardProps> = (props) => {
 
 interface ConnectWalletModalProps {
   toggleConnectWalletModal: () => void;
+  connectToMetamask: () => Promise<void>
 }
 
 const ConnectWalletModal: FC<ConnectWalletModalProps> = (props) => {
-  const { toggleConnectWalletModal } = props;
+  const { toggleConnectWalletModal, connectToMetamask } = props;
 
   return (
     <div className="bg-white px-[30px] py-[34px] lg:px-[70px] border rounded-3xl w-[344px] lg:w-[933px]">
@@ -70,14 +57,17 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = (props) => {
       <ConnectionCard
         connectionImg="/assets/images/svg/metamask.svg"
         providerName="MetaMask"
+        connectToMetamask={connectToMetamask}
       />
       <ConnectionCard
         connectionImg="/assets/images/svg/binance.svg"
         providerName="Binance Chain Wallet"
+        connectToMetamask={connectToMetamask}
       />
       <ConnectionCard
         connectionImg="/assets/images/svg/wallet-connect.svg"
         providerName="WalletConnect"
+        connectToMetamask={connectToMetamask}
       />
     </div>
   );

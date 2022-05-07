@@ -9,7 +9,7 @@ import {
 
 // STATE
 const intialState = {
-  user: {},
+  user: null,
 };
 
 // CREATE CONTEXT
@@ -21,7 +21,7 @@ const userReducer = (state, action) => {
     case "LOGGED_IN_USER":
       return { ...state, user: action.payload };
     default:
-      return state;
+      return state
   }
 };
 
