@@ -20,9 +20,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
-          <Backdrop showBackdrop={show}>
-            <PropertyUploadSuccessModal />
-          </Backdrop>
           <Component {...pageProps} />
         </Layout>
       </Web3ReactProvider>
