@@ -10,7 +10,8 @@ interface PropertiesCardProps {
     fraction: string;
     fractionLeft: string;
   };
-  verificationBadge?: boolean
+  verificationBadge?: boolean;
+  uploadedProperty?: boolean
 }
 
 const PropertiesCard: FC<PropertiesCardProps> = (props) => {
@@ -24,7 +25,8 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
       fraction,
       fractionLeft,
     },
-    verificationBadge
+    verificationBadge,
+    uploadedProperty
   } = props;
 
   return (
@@ -64,7 +66,10 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
         </div>
 
       </div>
-      <button className="mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">Choose</button>
+      {
+        uploadedProperty &&
+        <button className="mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">Choose</button>
+      }
     </div>
   );
 };

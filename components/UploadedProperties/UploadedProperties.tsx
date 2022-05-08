@@ -20,7 +20,7 @@ const UploadedProperties = () => {
             <div className={styles.featuredPropertiesCardContainer}>
                 {FEATURED_PROPERTIES.map((property, idx) => {
                     return <div className={styles.featuredPropertiesCardContainer}>
-                        <PropertiesCard verificationBadge={true} key={idx} property={property} />
+                        <PropertiesCard verificationBadge={true} uploadedProperty={true} key={idx} property={property} />
                     </div>;
                 })}
             </div>

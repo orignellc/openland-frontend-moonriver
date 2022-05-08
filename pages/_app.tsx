@@ -10,20 +10,22 @@ import { useState } from "react";
 import PropertyUploadSuccessModal from "../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
 import UploadedProperties from "../components/UploadedProperties/UploadedProperties";
 import PropertyDetails from "../components/PropertyDetails/PropertyDetails";
+import FractionalizedProperty from "../components/FractionalizeProperty/FractionalizeProperty";
+import FractionalizePropertyConfirmationModal from "../components/FractionalizePropertyConfirmationModal/FractionalizePropertyConfirmationModal";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider: any) => {
     const library = new Web3Provider(provider, "any");
   };
 
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(true)
 
   return (
     <AuthProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
           <Backdrop showBackdrop={show}>
-            <PropertyDetails />
+            <FractionalizePropertyConfirmationModal />
           </Backdrop>
           <Component {...pageProps} />
         </Layout>
