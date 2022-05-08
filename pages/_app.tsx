@@ -9,20 +9,21 @@ import Backdrop from "../components/ui/Backdrop/Backdrop";
 import { useState } from "react";
 import PropertyUploadSuccessModal from "../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
 import UploadedProperties from "../components/UploadedProperties/UploadedProperties";
+import PropertyDetails from "../components/PropertyDetails/PropertyDetails";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider: any) => {
     const library = new Web3Provider(provider, "any");
   };
 
-  const [show, setShow] = useState(true)
+  const [show, setShow] = useState(false)
 
   return (
     <AuthProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
           <Backdrop showBackdrop={show}>
-            <UploadedProperties />
+            <PropertyDetails />
           </Backdrop>
           <Component {...pageProps} />
         </Layout>
