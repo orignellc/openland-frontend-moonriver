@@ -76,7 +76,7 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
 
 const styles = {
   propertiesCardContainer:
-    "relative 2xl:w-[406px] mx-auto w-[369px] h-[528px] rounded-2xl overflow-hidden mb-[48px] border border-transparent cursor-pointer",
+    "relative 2xl:w-[406px] mx-auto w-[340px] h-[528px] rounded-2xl overflow-hidden mb-[48px] border border-transparent cursor-pointer",
 };
 
 export default PropertiesCard;
