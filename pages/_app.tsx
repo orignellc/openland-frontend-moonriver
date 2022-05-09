@@ -7,12 +7,6 @@ import Layout from "../components/HOC/Layout/Layout";
 import { AuthProvider } from "../context/Context";
 import Backdrop from "../components/ui/Backdrop/Backdrop";
 import { useState } from "react";
-import PropertyUploadSuccessModal from "../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
-import UploadedProperties from "../components/UploadedProperties/UploadedProperties";
-import PropertyDetails from "../components/PropertyDetails/PropertyDetails";
-import FractionalizedProperty from "../components/FractionalizeProperty/FractionalizeProperty";
-import FractionalizePropertyConfirmationModal from "../components/FractionalizePropertyConfirmationModal/FractionalizePropertyConfirmationModal";
-import CreatingVaultOverlay from "../components/CreatingVaultOverlay/CreatingVaultOverlay";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider: any) => {
@@ -25,9 +19,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
-          <Backdrop showBackdrop={show}>
-            <CreatingVaultOverlay />
-          </Backdrop>
           <Component {...pageProps} />
         </Layout>
       </Web3ReactProvider>

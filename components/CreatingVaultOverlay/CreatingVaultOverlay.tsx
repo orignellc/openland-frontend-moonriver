@@ -1,3 +1,5 @@
+import SpinnerAnimation from "../ui/SpinnerAnimation/SpinnerAnimation"
+
 const CreatingVaultOverlay = () => {
     return (
         <div className="bg-white text-center rounded-2xl w-[611px] p-[38px]">
@@ -7,38 +9,7 @@ const CreatingVaultOverlay = () => {
             </div>
 
             <div className="relative grid place-content-center">
-                <div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                    <div className="container">
-                        <div className="circle" />
-                    </div>
-                </div>
+                <SpinnerAnimation />
             </div>
 
             <h5 className="font-medium text-xl text-[#777B76] mt-[68px] mb-4">Creating a vault</h5>
