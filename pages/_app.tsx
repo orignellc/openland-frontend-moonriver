@@ -12,6 +12,7 @@ import UploadedProperties from "../components/UploadedProperties/UploadedPropert
 import PropertyDetails from "../components/PropertyDetails/PropertyDetails";
 import FractionalizedProperty from "../components/FractionalizeProperty/FractionalizeProperty";
 import FractionalizePropertyConfirmationModal from "../components/FractionalizePropertyConfirmationModal/FractionalizePropertyConfirmationModal";
+import CreatingVaultOverlay from "../components/CreatingVaultOverlay/CreatingVaultOverlay";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider: any) => {
@@ -25,7 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
           <Backdrop showBackdrop={show}>
-            <FractionalizePropertyConfirmationModal />
+            <CreatingVaultOverlay />
           </Backdrop>
           <Component {...pageProps} />
         </Layout>
