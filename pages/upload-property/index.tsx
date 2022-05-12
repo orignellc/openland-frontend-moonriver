@@ -20,6 +20,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
   const [successUpload, setSuccessUpload] = useState(false)
   const [showUploadedProperties, setShowUploadedProperties] = useState(false)
   const [info, setInfo] = useState(true)
+  const [data, setFormData] = useState<propertyModel>({name: "", location: "", title: "", size: "", about: ""})
 
   const router = useRouter()
 
@@ -38,7 +39,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
     formState: { errors },
   } = useForm<propertyModel>();
 
-  const formSubmitHandler = async (data: propertyModel) => {
+  const formSubmitHandler = async () => {
     // SUBMIT THE FORM
     console.log(data)
     setConfirmationModal(false)
@@ -51,15 +52,12 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
 
   return (
     <>
-      {/* <Backdrop showBackdrop={confirmationModal}>
+      <Backdrop showBackdrop={confirmationModal}>
         <UploadPropertyConfirmationModal formSubmitHandler={formSubmitHandler} />
-      </Backdrop> */}
+      </Backdrop>
       <Backdrop showBackdrop={successUpload}>
         <PropertyUploadSuccessModal toggleShowUploadedProperties={toggleShowUploadedProperties} />
       </Backdrop>
-      {/* <Backdrop showBackdrop={showUploadedProperties}>
-        <UploadedProperties />
-      </Backdrop> */}
       <div className="px-4 lg:px-[134px] py-10 lg:py-[137px] top-0 left-0 fixed z-[60] bg-white w-screen h-screen overflow-y-scroll">
         <div className="flex justify-between">
           <div />
@@ -74,7 +72,8 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
 
         <form
           onSubmit={handleSubmit((data) => {
-            formSubmitHandler(data);
+            setFormData(data)
+            setConfirmationModal(true)
             reset();
           })}
           className="px-4 lg:px-[134px]">
@@ -229,7 +228,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
               <button className="px-12 mr-2 py-2 text-[#374151] border rounded-md">
                 Cancel
               </button>
-              <button type="submit" onClick={() => setConfirmationModal(true)} className="px-12 py-2 bg-[#0FB95D] text-white border rounded-md">
+              <button type="submit" className="px-12 py-2 bg-[#0FB95D] text-white border rounded-md">
                 Save
               </button>
             </div>
