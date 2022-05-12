@@ -18,10 +18,10 @@ const UploadedProperties = () => {
             <Backdrop showBackdrop={showPropertyDetails}>
                 <PropertyDetails />
             </Backdrop>
-            <div className="top-0 left-0 fixed z-[60] bg-white py-[130px] w-screen h-screen overflow-y-scroll px-[30px] mx-auto">
+            <div className="top-0 left-0 fixed z-[60] bg-white py-[130px] w-screen h-screen overflow-y-scroll px-[px] mx-auto">
                 <div className="flex justify-between mb-[29px]">
-                    <img src="/assets/images/svg/arrow-left.svg" alt="back" />
-                    <img src="/assets/images/svg/cancel.svg" alt="cancel" />
+                    <img src="/assets/images/svg/arrow-left.svg" alt="back" className="cursor-pointer" />
+                    <img src="/assets/images/svg/cancel.svg" alt="cancel" className="cursor-pointer" />
                 </div>
 
                 <Tabs />
