@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 
 import Tabs from "../../../components/pages/ChooseProperty/Tabs"
 import PropertiesCard from "../../../components/PropertiesCard/PropertiesCard";
-import PropertyDetails from "../../../components/PropertyDetails/PropertyDetails";
 import Backdrop from "../../../components/ui/Backdrop/Backdrop";
 
 
@@ -13,14 +12,11 @@ const UploadedProperties = () => {
     const router = useRouter()
 
     const propertyDetailsHandler = () => {
-        setShowPropertiesDetails(prevState => !prevState)
+        router.push("/user-1/uploaded-properties/p1")
     }
 
     return (
         <>
-            <Backdrop showBackdrop={showPropertyDetails}>
-                <PropertyDetails />
-            </Backdrop>
             <div className="top-0 left-0 fixed z-[60] bg-white py-[130px] w-screen h-screen overflow-y-scroll px-[px] mx-auto">
                 <div className="flex justify-between mb-[29px]">
                     <img src="/assets/images/svg/arrow-left.svg" alt="back" className="cursor-pointer" onClick={() => router.push("/")} />
