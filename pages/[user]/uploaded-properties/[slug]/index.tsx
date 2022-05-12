@@ -65,7 +65,7 @@ const FractionalizeProperty = () => {
     const router = useRouter()
 
     return (
-        <div className="top-0 left-0 fixed z-[60] bg-white py-[130px] w-screen h-screen overflow-y-scroll px-20">
+        <div className="top-0 left-0 fixed z-[60] bg-white py-[130px] w-screen h-screen overflow-y-scroll lg:px-20">
             <div className="flex justify-between mb-[29px]">
                 <img src="/assets/images/svg/arrow-left.svg" alt="back" />
                 <img src="/assets/images/svg/cancel.svg" alt="cancel" />
@@ -73,12 +73,12 @@ const FractionalizeProperty = () => {
 
             <Tabs />
 
-            <div className="text-center w-[900px] mx-auto mb-[90px]">
-                <h4 className="mb-[10px] text-[42px] font-semibold">Fractionalize selected Property</h4>
+            <div className="text-center w-[343px] lg:w-[900px] mx-auto mb-[90px]">
+                <h4 className="mb-[10px] text-3xl lg:text-[42px] font-semibold">Fractionalize selected Property</h4>
                 <p className="font-medium text-lg">Select your desired fraction type, set your vault&apos;s details, then continue to fractionalize. Once completed, all fractions will appear in your wallet. Be aware that you cannot add to the property in your vault once created.</p>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col lg:flex-row justify-between">
                 <div>
                     <PropertiesCard property={{
                         image: "/assets/images/png/Image-1.png",
@@ -92,11 +92,11 @@ const FractionalizeProperty = () => {
                     }}
                         verificationBadge={true}
                     />
-                    <p onClick={() => router.push("/user-1/uploaded-properties")} className="text-[#555555] cursor-pointer font-medium text-2xl underline flex items-center">
+                    <p onClick={() => router.push("/user-1/uploaded-properties")} className="text-[#555555] cursor-pointer px-4 font-medium text-2xl mb-16 lg:mb-0 underline flex items-center">
                         <span><img src="/assets/images/svg/cloud-change.svg" alt="swap" className="" /></span> Change Property
                     </p>
                 </div>
-                <form>
+                <form className="px-4">
                     <h4 className="mb-[14px]">Fractionalization Standard</h4>
                     <div className="font-medium text-2xl px-[62px] border-[rgba(153,153,153,0.5)] py-[8px] border inline rounded-[50px]">ERC-20</div>
                     <h6 className="font-medium text-lg mt-12 mb-6">Vault Details</h6>
