@@ -73,7 +73,7 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
       </div>
       {
         uploadedProperty &&
-        <button onClick={propertyDetailsHandler} className="mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">Choose</button>
+        <button disabled={!verificationStatus} onClick={propertyDetailsHandler} className="disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed disabled:hover:shadow-none mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">Choose</button>
       }
     </div>
   );
