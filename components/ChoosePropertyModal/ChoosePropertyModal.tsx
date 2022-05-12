@@ -64,7 +64,7 @@ const ChoosePropertyModal: FC<ChoosePropertyModalProps> = (props) => {
 
       <div
         onClick={() => router.push("/upload-property")}
-        className="flex max-w-[343px] lg:max-w-full mx-auto place-content-center mb-3 cursor-pointer hover:scale-105 duration-200"
+        className="flex max-w-[343px] pb-20 lg:max-w-full mx-auto place-content-center mb-3 cursor-pointer hover:scale-105 duration-200"
       >
         <div className="border border-[#999999] py-8 px-6 lg:px-[70px] w-[793px] rounded-2xl flex justify-between items-start">
           <div className="w-[253px] mx-auto sm:w-[230px] lg:w-[519px]">
