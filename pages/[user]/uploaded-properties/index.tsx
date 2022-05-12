@@ -36,7 +36,7 @@ const UploadedProperties = () => {
 
                 <div className={styles.featuredPropertiesCardContainer}>
                     {FEATURED_PROPERTIES.map((property, idx) => {
-                        return <div className={styles.featuredPropertiesCardContainer}>
+                        return <div key={idx} className={styles.featuredPropertiesCardContainer}>
                             <PropertiesCard
                                 propertyDetailsHandler={propertyDetailsHandler}
                                 verificationBadge={true}
