@@ -1,4 +1,5 @@
 import { FC } from "react"
+import { useRouter } from "next/router"
 
 import PropertiesCard from "../PropertiesCard/PropertiesCard"
 
@@ -8,11 +9,22 @@ interface PropertyUploadSuccessModalProps {
 
 const PropertyUploadSuccessModal: FC<PropertyUploadSuccessModalProps> = (props) => {
     const { toggleShowUploadedProperties } = props
+    const router = useRouter()
 
     return <div className="top-0 left-0 fixed z-[60] bg-white py-[40px] lg:py-[130px] w-screen h-screen overflow-y-scroll lg:px-20">
         <div className="flex justify-between mb-[29px] px-4">
-            <img src="/assets/images/svg/arrow-left.svg" alt="back" className="w-6 h-6" />
-            <img src="/assets/images/svg/cancel.svg" alt="cancel" className="cursor-pointer" onClick={toggleShowUploadedProperties} />
+            <img 
+                src="/assets/images/svg/arrow-left.svg" 
+                alt="back" 
+                className="w-6 h-6 cursor-pointer" 
+                onClick={() => router.push("/")} 
+            />
+            <img 
+                src="/assets/images/svg/cancel.svg" 
+                alt="cancel" 
+                className="cursor-pointer" 
+                onClick={() => router.push("/user-1/uploaded-properties")} 
+            />
         </div>
 
         <div className="px-4 w-full lg:w-[800px] mb-8 mx-auto text-center">

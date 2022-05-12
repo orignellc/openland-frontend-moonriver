@@ -1,9 +1,9 @@
 import { useState } from "react"
 
-import Tabs from "../pages/ChooseProperty/Tabs"
-import PropertiesCard from "../PropertiesCard/PropertiesCard";
-import PropertyDetails from "../PropertyDetails/PropertyDetails";
-import Backdrop from "../ui/Backdrop/Backdrop";
+import Tabs from "../../../components/pages/ChooseProperty/Tabs"
+import PropertiesCard from "../../../components/PropertiesCard/PropertiesCard";
+import PropertyDetails from "../../../components/PropertyDetails/PropertyDetails";
+import Backdrop from "../../../components/ui/Backdrop/Backdrop";
 
 
 const UploadedProperties = () => {

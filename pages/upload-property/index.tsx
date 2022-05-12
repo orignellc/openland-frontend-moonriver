@@ -5,7 +5,7 @@ import Input from "../../components/ui/Input/Input";
 import Backdrop from "../../components/ui/Backdrop/Backdrop";
 import UploadPropertyConfirmationModal from "../../components/UploadPropertyConfirmationModal/UploadPropertyConfirmationModal";
 import PropertyUploadSuccessModal from "../../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
-import UploadedProperties from "../../components/UploadedProperties/UploadedProperties";
+
 import { useRouter } from "next/router";
 
 interface UploadPropertyModal {
@@ -40,9 +40,9 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
       <Backdrop showBackdrop={successUpload}>
         <PropertyUploadSuccessModal toggleShowUploadedProperties={toggleShowUploadedProperties} />
       </Backdrop>
-      <Backdrop showBackdrop={showUploadedProperties}>
+      {/* <Backdrop showBackdrop={showUploadedProperties}>
         <UploadedProperties />
-      </Backdrop>
+      </Backdrop> */}
       <div className="px-4 lg:px-[134px] py-10 lg:py-[137px] top-0 left-0 fixed z-[60] bg-white w-screen h-screen overflow-y-scroll">
         <div className="flex justify-between">
           <div />
@@ -129,7 +129,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
             </div>
           </div>
 
-          {info && <div className="mt-8 flex justify-between border bg-[#FCFCFD] border-[#D0D5DD] rounded-lg px-4 py-4">
+          {info && <div className="mt-8 flex items-center justify-between border bg-[#FCFCFD] border-[#D0D5DD] rounded-lg px-4 py-4">
             <img src="/assets/images/svg/info.svg" alt="info" className="mr-3" />
             <p className="font-medium text-sm">Kindly note that this property would be made into an NFT</p>
             <img src="/assets/images/svg/cancel.svg" alt="cancel" className="cursor-pointer" onClick={() => setInfo(false)} />

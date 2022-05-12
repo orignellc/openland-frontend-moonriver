@@ -139,7 +139,7 @@ const PropertyDetails = () => {
                                     const { rank, percentageVol, image, quantity, value, walletAddress } = propertyDetail
 
                                     return (
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <tr key={rank} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                                 {rank}
                                             </th>
