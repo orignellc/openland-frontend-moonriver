@@ -1,7 +1,9 @@
 import { FC, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion"
 
+import Classes from "./sidenav.module.css"
 import Logo from "../../public/assets/images/svg/logo-text.svg";
 import Fractionalize from "../../public/assets/images/svg/fractionalize.svg";
 import BuyTokens from "../../public/assets/images/svg/buy-tokens.svg";
@@ -21,10 +23,11 @@ const Sidenav: FC<SidenavProps> = (props) => {
     setShowDropdown((prevState) => !prevState);
   };
 
-  if (!showSidenav) return <></>;
-
   return (
-    <aside className="fixed pb-[72px] z-[500] flex justify-between flex-col top-0 left-0 w-screen h-screen bg-white">
+    <aside
+      className={`fixed pb-[72px] duration-1000 ease-in-out transition-transform -translate-x-[100%] ${Classes.sideNav} z-[500] flex justify-between flex-col top-0 left-0 w-screen h-screen bg-white 
+      ${showSidenav && "-translate-x-0 duration-200 ease-in-out"}`}
+    >
       <div>
         <div className="h-[70px] pl-4 flex justify-between items-center shadow-sm">
           <div>
@@ -75,49 +78,58 @@ const Sidenav: FC<SidenavProps> = (props) => {
               </li>
             </ul>
 
-            {showDropdown && (
-              <ul className="mt-[41px]">
-                <li>
-                  <ul className="flex mb-4">
-                    <div className="w-11 grid place-content-center mr-2 h-11 rounded-[50%] bg-[#F7F8F8]">
-                      <Image
-                        src={Fractionalize}
-                        height="20.71"
-                        width="20.71"
-                        alt="fractionalize"
-                      />
-                    </div>
-                    <div className="w-[291px]">
-                      <h6 className="font-medium text-base text-black">
-                        Fractionalize NFTs
-                      </h6>
-                      <p className="text-sm font-normal text-[#727A76]">
-                        Select the NFT(s) you own and transfer to a new vault to
-                        be fractionalized
-                      </p>
-                    </div>
-                  </ul>
-                  <ul className="flex mb-4">
-                    <div className="w-11 grid place-content-center mr-2 h-11 rounded-[50%] bg-[#F7F8F8]">
-                      <Image
-                        src={BuyTokens}
-                        height="20.71"
-                        width="20.71"
-                        alt="fractionalize"
-                      />
-                    </div>
-                    <div className="w-[291px]">
-                      <h6 className="font-medium text-base text-black">
-                        Buy Tokens
-                      </h6>
-                      <p className="text-sm font-normal text-[#727A76]">
-                        Buy tokens from other crypto assets
-                      </p>
-                    </div>
-                  </ul>
-                </li>
-              </ul>
-            )}
+
+            <AnimatePresence>
+              {showDropdown && (
+                <motion.ul
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-[41px]"
+                >
+                  <li>
+                    <ul className="flex mb-4">
+                      <div className="w-11 grid place-content-center mr-2 h-11 rounded-[50%] bg-[#F7F8F8]">
+                        <Image
+                          src={Fractionalize}
+                          height="20.71"
+                          width="20.71"
+                          alt="fractionalize"
+                        />
+                      </div>
+                      <div className="w-[291px]">
+                        <h6 className="font-medium text-base text-black">
+                          Fractionalize NFTs
+                        </h6>
+                        <p className="text-sm font-normal text-[#727A76]">
+                          Select the NFT(s) you own and transfer to a new vault to
+                          be fractionalized
+                        </p>
+                      </div>
+                    </ul>
+                    <ul className="flex mb-4">
+                      <div className="w-11 grid place-content-center mr-2 h-11 rounded-[50%] bg-[#F7F8F8]">
+                        <Image
+                          src={BuyTokens}
+                          height="20.71"
+                          width="20.71"
+                          alt="fractionalize"
+                        />
+                      </div>
+                      <div className="w-[291px]">
+                        <h6 className="font-medium text-base text-black">
+                          Buy Tokens
+                        </h6>
+                        <p className="text-sm font-normal text-[#727A76]">
+                          Buy tokens from other crypto assets
+                        </p>
+                      </div>
+                    </ul>
+                  </li>
+                </motion.ul>
+              )}
+            </AnimatePresence>
+
           </li>
         </ul>
       </div>

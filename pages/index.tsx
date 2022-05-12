@@ -12,7 +12,6 @@ import PropertiesCard from "../components/PropertiesCard/PropertiesCard";
 import Button from "../components/ui/Button/Button";
 import TeamCard from "../components/TeamCard/TeamCard";
 import ChoosePropertyModal from "../components/ChoosePropertyModal/ChoosePropertyModal";
-import UploadPropertyModal from "../components/UploadPropertyModal/UploadPropertyModal";
 
 const Home: NextPage = () => {
   const [showChoosePropertyModal, setShowChoosePropertyModal] = useState(false);
@@ -38,12 +37,6 @@ const Home: NextPage = () => {
         togglePropertyModal={togglePropertyModal}
         toggleChoosePropertyModal={toggleChoosePropertyModal}
         showChoosePropertyModal={showChoosePropertyModal}
-      />
-
-      {/* UPLOAD PROPERTY MODAL */}
-      <UploadPropertyModal
-        togglePropertyModal={togglePropertyModal}
-        showUploadPropertyModal={showUploadPropertyModal}
       />
 
       {/* HERO SECTION */}
@@ -307,10 +300,10 @@ const styles = {
     "ml-auto text-right max-w-[543px] 2xl:max-w-[597px] lg:mr-[70px] text-[#999999] text-xs lg:text-sm mb-[70px]",
   featuredPropertiesContainer:
     "bg-color-secondary px-[16px] 2xl:px-[72px] py-[60px] lg:py-[120px]",
-  featuredPropertiesContainer_: "mb-[82px] flex items-center justify-between",
+  featuredPropertiesContainer_: "mb-[82px] px-[16px] 2xl:px-[72px] flex items-center justify-between",
   featuredPropertiesContainerHeading: "text-[42px] font-semibold text-white",
   featuredPropertiesContainerDescription: "text-lg text-white",
-  featuredPropertiesCardContainer: "flex flex-wrap",
+  featuredPropertiesCardContainer: "flex flex-wrap justify-around w-full",
 };
 
 export default Home;

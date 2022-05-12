@@ -2,24 +2,34 @@ import { FC, useState } from "react";
 
 import Tabs from "../../components/pages/ChooseProperty/Tabs";
 import Input from "../../components/ui/Input/Input";
-import Backdrop from "../ui/Backdrop/Backdrop";
-import UploadPropertyConfirmationModal from "../UploadPropertyConfirmationModal/UploadPropertyConfirmationModal";
+import Backdrop from "../../components/ui/Backdrop/Backdrop";
+import UploadPropertyConfirmationModal from "../../components/UploadPropertyConfirmationModal/UploadPropertyConfirmationModal";
+import PropertyUploadSuccessModal from "../../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
+import UploadedProperties from "../../components/UploadedProperties/UploadedProperties";
+import { useRouter } from "next/router";
 
 interface UploadPropertyModal {
-  showUploadPropertyModal: boolean;
   togglePropertyModal: () => void;
 }
 
-const UploadPropertyModal: FC<UploadPropertyModal> = (props) => {
-  const { showUploadPropertyModal, togglePropertyModal } = props;
+const UploadProperty: FC<UploadPropertyModal> = (props) => {
+  const { togglePropertyModal } = props;
 
   const [confirmationModal, setConfirmationModal] = useState(false)
+  const [successUpload, setSuccessUpload] = useState(false)
+  const [showUploadedProperties, setShowUploadedProperties] = useState(false)
+  const [info, setInfo] = useState(true)
 
-  if (!showUploadPropertyModal) return <></>;
+  const router = useRouter()
 
   const formSubmitHandler = async () => {
     // SUBMIT THE FORM
     setConfirmationModal(false)
+    setSuccessUpload(true)
+  }
+
+  const toggleShowUploadedProperties = () => {
+    setShowUploadedProperties(true)
   }
 
   return (
@@ -27,11 +37,17 @@ const UploadPropertyModal: FC<UploadPropertyModal> = (props) => {
       <Backdrop showBackdrop={confirmationModal}>
         <UploadPropertyConfirmationModal formSubmitHandler={formSubmitHandler} />
       </Backdrop>
-      <div className="px-[134px] py-[137px] top-0 left-0 fixed z-[60] bg-white w-screen h-screen overflow-y-scroll">
+      <Backdrop showBackdrop={successUpload}>
+        <PropertyUploadSuccessModal toggleShowUploadedProperties={toggleShowUploadedProperties} />
+      </Backdrop>
+      <Backdrop showBackdrop={showUploadedProperties}>
+        <UploadedProperties />
+      </Backdrop>
+      <div className="px-4 lg:px-[134px] py-10 lg:py-[137px] top-0 left-0 fixed z-[60] bg-white w-screen h-screen overflow-y-scroll">
         <div className="flex justify-between">
           <div />
           <img
-            onClick={togglePropertyModal}
+            onClick={() => router.push("/")}
             src="/assets/images/svg/cancel.svg"
             alt="cancel"
             className="cursor-pointer"
@@ -39,9 +55,9 @@ const UploadPropertyModal: FC<UploadPropertyModal> = (props) => {
         </div>
         <Tabs />
 
-        <form className="px-[134px]">
+        <form className="px-4 lg:px-[134px]">
           <div className="text-center my-[70px]">
-            <h4 className="font-semibold text-[42px]">Upload Property Details</h4>
+            <h4 className="font-semibold text-3xl mb-3 lg:text-[42px]">Upload Property Details</h4>
             <p className="font-medium text-lg text-[#555555]">
               Kindly provide all of the necessary details of the land
             </p>
@@ -50,8 +66,8 @@ const UploadPropertyModal: FC<UploadPropertyModal> = (props) => {
           <Input label="What is the name of your property? *" />
           <Input label="Where is the location of your property? *" />
           <Input label="What is the title of your property? *" />
-          <div className="grid grid-cols-2 gap-6">
-            <Input label="What is the total size of your property? *" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Input label="What is the total size of your property? *" info="The value should be in square meters (sqm)" />
             <div className="flex items-center">
               How many do you want to fractionalize? *
             </div>
@@ -113,12 +129,18 @@ const UploadPropertyModal: FC<UploadPropertyModal> = (props) => {
             </div>
           </div>
 
-          <hr className="border-[#D6D6DD mt-[42px]" />
+          {info && <div className="mt-8 flex justify-between border bg-[#FCFCFD] border-[#D0D5DD] rounded-lg px-4 py-4">
+            <img src="/assets/images/svg/info.svg" alt="info" className="mr-3" />
+            <p className="font-medium text-sm">Kindly note that this property would be made into an NFT</p>
+            <img src="/assets/images/svg/cancel.svg" alt="cancel" className="cursor-pointer" onClick={() => setInfo(false)} />
+          </div>}
+
+          <hr className="border-[#D6D6DD mt-8" />
 
           <div className="flex justify-between mt-5">
             <div />
             <div>
-              <button className="px-12 mr-3 py-2 text-[#374151] border rounded-md">
+              <button className="px-12 mr-2 py-2 text-[#374151] border rounded-md">
                 Cancel
               </button>
               <button type="button" onClick={() => setConfirmationModal(true)} className="px-12 py-2 bg-[#0FB95D] text-white border rounded-md">
@@ -132,4 +154,4 @@ const UploadPropertyModal: FC<UploadPropertyModal> = (props) => {
   );
 };
 
-export default UploadPropertyModal;
+export default UploadProperty;

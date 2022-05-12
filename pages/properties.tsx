@@ -8,7 +8,7 @@ const Properties = () => (
         <h3 className="color-black font-semibold text-[42px]">
           Our Properties
         </h3>
-        <p className="text-lg text-[#555555]">
+        <p className="text-base text-[#555555]">
           Some of our featured properties up for sale
         </p>
       </div>
@@ -19,7 +19,7 @@ const Properties = () => (
     </div>
 
     {/* properties card */}
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap justify-around">
       {FEATURED_PROPERTIES.map((property, idx) => {
         return <PropertiesCard key={idx} property={property} />;
       })}

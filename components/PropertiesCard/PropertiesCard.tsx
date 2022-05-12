@@ -11,7 +11,8 @@ interface PropertiesCardProps {
     fractionLeft: string;
   };
   verificationBadge?: boolean;
-  uploadedProperty?: boolean
+  uploadedProperty?: boolean;
+  propertyDetailsHandler?: () => void
 }
 
 const PropertiesCard: FC<PropertiesCardProps> = (props) => {
@@ -26,14 +27,15 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
       fractionLeft,
     },
     verificationBadge,
-    uploadedProperty
+    uploadedProperty,
+    propertyDetailsHandler
   } = props;
 
   return (
     <div>
       <div className={styles.propertiesCardContainer}>
-        {verificationBadge && <div className="font-semibold absolute z-50 top-[30px] bg-white text-[#555555] left-[30px] px-6 py-[10px] rounded-[30px] border border-[#F2B705] text-[13.5px]">
-          Not Verified
+        {verificationBadge && <div className="font-semibold flex items-center absolute z-50 top-[30px] bg-white text-[#555555] left-[30px] px-6 py-[10px] rounded-[30px] border border-[#F2B705] text-[13.5px]">
+          <img src="/assets/images/svg/verify.svg" alt="verify" className="w-[18px] h-[18px] mr-[7.5px]" /> Not Verified
         </div>}
         <img
           src={image}
@@ -68,7 +70,7 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
       </div>
       {
         uploadedProperty &&
-        <button className="mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">Choose</button>
+        <button onClick={propertyDetailsHandler} className="mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">Choose</button>
       }
     </div>
   );

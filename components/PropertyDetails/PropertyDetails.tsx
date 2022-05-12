@@ -15,7 +15,7 @@ const PropertyDetails = () => {
 
             <div className="absolute px-[30px]  bottom-[-4.5%] left-0 flex justify-between w-full">
                 <div className="bg-white rounded-[40px] border shadow-md px-4 py-[6px] flex items-center justify-between">
-                    <img src="/assets/images/svg/avatar.svg" className="w-[52px] h-[52px]" alt="" />
+                    <img src="/assets/images/svg/avatar.jpg" className="w-[52px] rounded-[50%] h-[52px]" alt="" />
                     <p className="font-semibold text-lg px-[10px]">0xGuj....ftyb552</p>
                     <img src="/assets/images/svg/copy.svg" className="w-[52px] h-[52px] cursor-pointer" alt="" />
                 </div>

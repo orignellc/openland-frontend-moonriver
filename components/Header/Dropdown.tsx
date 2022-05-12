@@ -3,7 +3,7 @@ import Fractionalize from "../../public/assets/images/svg/fractionalize.svg";
 import BuyTokens from "../../public/assets/images/svg/buy-tokens.svg";
 
 const Dropdown = () => (
-  <ul className="mt-[41px] w-[564px] absolute top-[-100%] left-0 bg-white rounded-lg px-6 py-9">
+  <ul className="mt-[41px] w-[546px] absolute top-[-100%] left-[-100px] bg-white rounded-lg px-6 py-9">
     <li>
       <ul className="flex mb-9">
         <div className="w-11 grid place-content-center mr-2 h-11 rounded-[50%] bg-[#F7F8F8]">

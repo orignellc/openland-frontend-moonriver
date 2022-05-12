@@ -4,7 +4,6 @@ import ChoosePropertyModal from "../../ChoosePropertyModal/ChoosePropertyModal";
 import Footer from "../../Footer/Footer";
 import Header from "../../Header/Header";
 import Sidenav from "../../Sidenav/Sidenav";
-import UploadPropertyModal from "../../UploadPropertyModal/UploadPropertyModal";
 
 interface WrapperProps {
   children: ReactNode;
@@ -24,7 +23,6 @@ const Wrapper: FC<WrapperProps> = (props) => {
     <>
       <Sidenav toggleSidenav={toggleSidenav} showSidenav={showSidenav} />
       <Header toggleSidenav={toggleSidenav} />
-      <UploadPropertyModal showUploadPropertyModal={showUploadPropertyModal} togglePropertyModal={togglePropertyModal} />
       <ChoosePropertyModal showChoosePropertyModal={showChoosePropertyModal} toggleChoosePropertyModal={toggleChoosePropertyModal} togglePropertyModal={togglePropertyModal} />
       <main className="pt-[93px]">{children}</main>
       <Footer />

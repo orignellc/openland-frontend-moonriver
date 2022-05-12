@@ -59,11 +59,11 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = (props) => {
         providerName="MetaMask"
         connectToMetamask={connectToMetamask}
       />
-      <ConnectionCard
+      {/* <ConnectionCard
         connectionImg="/assets/images/svg/binance.svg"
         providerName="Binance Chain Wallet"
         connectToMetamask={connectToMetamask}
-      />
+      /> */}
       <ConnectionCard
         connectionImg="/assets/images/svg/wallet-connect.svg"
         providerName="WalletConnect"

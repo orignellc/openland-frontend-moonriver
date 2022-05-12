@@ -3,10 +3,11 @@ import { FC } from "react";
 interface InputProps {
   label: string;
   placeholder?: string
+  info?: string
 }
 
 const Input: FC<InputProps> = (props) => {
-  const { label, placeholder } = props;
+  const { label, placeholder, info } = props;
 
   return (
     <div className="flex flex-col mb-6">
@@ -14,6 +15,7 @@ const Input: FC<InputProps> = (props) => {
         {label}
       </label>
       <input placeholder={placeholder} id={label} className="border border-[#D6D6DD] rounded-[4px] shadow-sm focus:outline-none px-2 py-2" />
+      {info && <span className="text-sm lg:text-base text-[rgba(85,85,85,0.6)]">{info}</span>}
     </div>
   );
 };
