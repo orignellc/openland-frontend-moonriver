@@ -9,6 +9,7 @@ interface PropertiesCardProps {
     sqm: string;
     fraction: string;
     fractionLeft: string;
+    verificationStatus?: boolean
   };
   verificationBadge?: boolean;
   uploadedProperty?: boolean;
@@ -25,17 +26,19 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
       sqm,
       fraction,
       fractionLeft,
+      verificationStatus
     },
     verificationBadge,
     uploadedProperty,
     propertyDetailsHandler
   } = props;
+  
 
   return (
     <div>
       <div className={styles.propertiesCardContainer}>
-        {verificationBadge && <div className="font-semibold flex items-center absolute z-50 top-[30px] bg-white text-[#555555] left-[30px] px-6 py-[10px] rounded-[30px] border border-[#F2B705] text-[13.5px]">
-          <img src="/assets/images/svg/verify.svg" alt="verify" className="w-[18px] h-[18px] mr-[7.5px]" /> Not Verified
+        {verificationBadge && <div className={`font-semibold flex items-center absolute z-50 top-[30px] bg-white ${!verificationStatus ? "text-[#555555]" : "text-color-primary"} left-[30px] px-6 py-[10px] rounded-[30px] border border-[#F2B705] text-[13.5px]`}>
+          <img src={`${verificationStatus ? "/assets/images/svg/verified.svg" : "/assets/images/svg/verify.svg"}`} alt="verify" className="w-[18px] h-[18px] mr-[7.5px]" /> {verificationStatus ? "verified" : "Not Verified"}
         </div>}
         <img
           src={image}

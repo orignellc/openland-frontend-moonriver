@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useRouter } from "next/router";
 
 import Tabs from "../../../components/pages/ChooseProperty/Tabs"
 import PropertiesCard from "../../../components/PropertiesCard/PropertiesCard";
@@ -8,6 +9,8 @@ import Backdrop from "../../../components/ui/Backdrop/Backdrop";
 
 const UploadedProperties = () => {
     const [showPropertyDetails, setShowPropertiesDetails] = useState(false)
+
+    const router = useRouter()
 
     const propertyDetailsHandler = () => {
         setShowPropertiesDetails(prevState => !prevState)
@@ -20,8 +23,8 @@ const UploadedProperties = () => {
             </Backdrop>
             <div className="top-0 left-0 fixed z-[60] bg-white py-[130px] w-screen h-screen overflow-y-scroll px-[px] mx-auto">
                 <div className="flex justify-between mb-[29px]">
-                    <img src="/assets/images/svg/arrow-left.svg" alt="back" className="cursor-pointer" />
-                    <img src="/assets/images/svg/cancel.svg" alt="cancel" className="cursor-pointer" />
+                    <img src="/assets/images/svg/arrow-left.svg" alt="back" className="cursor-pointer" onClick={() => router.push("/")} />
+                    <img src="/assets/images/svg/cancel.svg" alt="cancel" className="cursor-pointer" onClick={() => router.push("/")} />
                 </div>
 
                 <Tabs />
@@ -58,6 +61,7 @@ const FEATURED_PROPERTIES = [
         fractionLeft: "10",
         fraction: "15",
         sqm: "8,000",
+        verificationStatus: false
     },
     {
         image: "/assets/images/png/Image-2.png",
@@ -67,6 +71,7 @@ const FEATURED_PROPERTIES = [
         fractionLeft: "10",
         fraction: "15",
         sqm: "8,000",
+        verificationStatus: true
     },
     {
         image: "/assets/images/png/Image-3.png",
@@ -76,6 +81,7 @@ const FEATURED_PROPERTIES = [
         fractionLeft: "10",
         fraction: "15",
         sqm: "8,000",
+        verificationStatus: false
     },
     {
         image: "/assets/images/png/Image-4.png",
@@ -85,6 +91,7 @@ const FEATURED_PROPERTIES = [
         fractionLeft: "10",
         fraction: "15",
         sqm: "8,000",
+        verificationStatus: true
     },
     {
         image: "/assets/images/png/Image-5.png",
@@ -94,6 +101,7 @@ const FEATURED_PROPERTIES = [
         fractionLeft: "10",
         fraction: "15",
         sqm: "8,000",
+        verificationStatus: true
     },
     {
         image: "/assets/images/png/Image-6.png",
@@ -103,6 +111,7 @@ const FEATURED_PROPERTIES = [
         fractionLeft: "10",
         fraction: "15",
         sqm: "8,000",
+        verificationStatus: true
     },
 ];
 
