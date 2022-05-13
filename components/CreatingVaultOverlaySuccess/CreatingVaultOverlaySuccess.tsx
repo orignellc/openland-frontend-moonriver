@@ -1,10 +1,14 @@
+import { useRouter } from "next/router"
+
 import PropertiesCard from "../PropertiesCard/PropertiesCard"
 
 const CreatingVaultOverlaySuccess = () => {
+    const router = useRouter()
+
     return <div className="top-0 left-0 fixed z-[60] bg-white py-[130px] w-screen h-screen overflow-y-scroll px-20">
         <div className="flex justify-between mb-[29px]">
-            <img src="/assets/images/svg/arrow-left.svg" alt="back" />
-            <img src="/assets/images/svg/cancel.svg" alt="cancel" />
+            <img src="/assets/images/svg/arrow-left.svg" alt="back" onClick={() => router.push("/")} />
+            <img src="/assets/images/svg/cancel.svg" alt="cancel" onClick={() => router.push("/")} />
         </div>
 
         <div className="w-[800px] mb-8 mx-auto text-center">

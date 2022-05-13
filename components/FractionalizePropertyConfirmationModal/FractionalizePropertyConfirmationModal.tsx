@@ -1,4 +1,12 @@
-const FractionalizePropertyConfirmationModal = () => {
+import { FC } from "react"
+
+interface FractionalizePropertyConfirmationModalProps {
+    handleFractionalize: () => void
+}
+
+const FractionalizePropertyConfirmationModal: FC<FractionalizePropertyConfirmationModalProps> = (props) => {
+    const { handleFractionalize } = props
+
     return (
         <div className="text-center py-9 bg-white rounded-2xl px-[70px]">
             <h3 className="font-medium text-2xl text-[#101828] mb-8">ATTENTION</h3>
@@ -10,7 +18,7 @@ const FractionalizePropertyConfirmationModal = () => {
             <div className="grid place-content-center mb-28">
                 <div className="flex">
                     <button className="py-[9px] px-[46px] lg:px-[57px] border font-medium mr-[14px] text-sm rounded-md border-[#D1D5DB]">Cancel</button>
-                    <button className="py-[9px] px-[46px] lg:px-[57px] border font-medium text-sm text-white rounded-md bg-[#0FB95D]">Fractionalize</button>
+                    <button onClick={handleFractionalize} className="py-[9px] px-[46px] lg:px-[57px] border font-medium text-sm text-white rounded-md bg-[#0FB95D]">Fractionalize</button>
                 </div>
             </div>
         </div>
