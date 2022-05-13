@@ -7,11 +7,6 @@ import Layout from "../components/HOC/Layout/Layout";
 import { AuthProvider } from "../context/Context";
 import Backdrop from "../components/ui/Backdrop/Backdrop";
 import { useState } from "react";
-import FractionalizedProperty from "../components/FractionalizeProperty/FractionalizeProperty";
-import FractionalizePropertyConfirmationModal from "../components/FractionalizePropertyConfirmationModal/FractionalizePropertyConfirmationModal";
-import CreatingVaultOverlay from "../components/CreatingVaultOverlay/CreatingVaultOverlay";
-import CreatingVaultOverlaySuccess from "../components/CreatingVaultOverlaySuccess/CreatingVaultOverlaySuccess";
-import Search from "../components/Search/Search";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider: any) => {
