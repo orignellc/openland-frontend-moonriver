@@ -192,7 +192,7 @@ const TEAMS = [
     title: "Fullstack Developer",
   },
   {
-    image: "/assets/images/png/avatar.png",
+    image: "/assets/images/png/dummy-avatar.jpg",
     name: "Paul Oladimeji",
     title: "Product Manager",
   },
