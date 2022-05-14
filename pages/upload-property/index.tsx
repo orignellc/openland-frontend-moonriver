@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Tabs from "../../components/pages/ChooseProperty/Tabs";
@@ -20,7 +20,8 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
   const [successUpload, setSuccessUpload] = useState(false)
   const [showUploadedProperties, setShowUploadedProperties] = useState(false)
   const [info, setInfo] = useState(true)
-  const [data, setFormData] = useState<propertyModel>({name: "", location: "", title: "", size: "", about: ""})
+  const [data, setFormData] = useState<propertyModel>({name: "", location: "", title: "", size: "", about: "", image: ""})
+  const [fileUrl, setFileUrl] = useState("");
 
   const router = useRouter()
 
@@ -30,6 +31,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
     title: string,
     size: string,
     about: string,
+    image: any
   }
 
   const {
@@ -48,6 +50,11 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
 
   const toggleShowUploadedProperties = () => {
     setShowUploadedProperties(true)
+  }
+
+  const captureFile = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log("CHANGED")
+    
   }
 
   return (
@@ -174,7 +181,15 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
           <div className="flex flex-col mb-10">
             <label htmlFor="upload-image" className="mb-[6px]">
               <p className="mb-2">Upload photos *</p>
-              <input id="upload-image" className="hidden" type="file" />
+              <input 
+                id="upload-image" 
+                className="hidden" 
+                type="file" 
+                onChange={captureFile} 
+                // {...register("image", {
+                //   required: "Please upload an image",
+                // })}
+              />
               <div className="w-full text-center grid place-content-center h-[200px] border border-[#D6D6DD] cursor-pointer border-dotted">
                 <img
                   src="/assets/images/svg/img.svg"

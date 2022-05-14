@@ -15,7 +15,7 @@ const Button: FC<ButtonProps> = (props) => {
     btnType === "fill"
       ? "bg-color-primary text-white"
       : btnType === "outline"
-      ? "bg-transparent border text-color-primary border-color-primary"
+      ? "bg-transparent border-2 text-white text-color-primary border-color-primary"
       : "bg-transparent border border-color-tertiary text-white opacity-90";
 
   if (!link) {

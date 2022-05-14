@@ -15,7 +15,7 @@ const FeaturesCard: FC<FeaturesCardProps> = (props) => {
   } = props;
 
   return (
-    <div className="mx-auto w-[280px] 2xl:w-[307px] mb-10 lg:mb-0 text-left">
+    <div className="mx-auto w-[343px] lg:w-[280px] 2xl:w-[307px] mb-10 lg:mb-0 text-left">
       <Image src={featureIcon} width="78" height="78" alt={featureHeading} />
       <h4 className="mt-6 font-semibold text-[26px]">{featureHeading}</h4>
       <p className="text-lg text-[#555555] mt-4">{featureDescription}</p>

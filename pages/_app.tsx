@@ -19,12 +19,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
-          {/* <Backdrop showBackdrop> */}
-            {/* <FractionalizedProperty /> */}
-            {/* <FractionalizePropertyConfirmationModal /> */}
-            {/* <CreatingVaultOverlay /> */}
-            {/* <CreatingVaultOverlaySuccess /> */}
-          {/* </Backdrop> */}
           <Component {...pageProps} />
         </Layout>
       </Web3ReactProvider>

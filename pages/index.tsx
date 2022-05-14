@@ -155,11 +155,11 @@ const Home: NextPage = () => {
       </section>
 
       <section className="py-[120px] px-4 lg:px-[70px]">
-        <h3 className="mb-[27px] font-semibold text-[42px]">
+        <h3 className="mb-[27px] font-semibold text-3xl lg:text-[42px]">
           The Team behind OpenLand
         </h3>
 
-        <p className="text-lg text-[#555555]">
+        <p className="text-base text-[#555555]">
           OpenLand was built with love for Africa{" "}
           <span className="text-red-500">&hearts;</span>{" "}
           <span className="text-sm">Powered by</span>{" "}
@@ -182,12 +182,12 @@ const Home: NextPage = () => {
 
 const TEAMS = [
   {
-    image: "/assets/images/png/avatar.png",
+    image: "/assets/images/png/femi.png",
     name: "Oluwafemi Alofe",
     title: "Blockchain Developer",
   },
   {
-    image: "/assets/images/png/avatar.png",
+    image: "/assets/images/png/emma.png",
     name: "Emmanuel Joseph",
     title: "Fullstack Developer",
   },
@@ -197,8 +197,8 @@ const TEAMS = [
     title: "Product Manager",
   },
   {
-    image: "/assets/images/png/avatar.png",
-    name: "Abosede Mayungbe",
+    image: "/assets/images/png/bose.png",
+    name: "Abosede May",
     title: "Product Designer",
   },
 ];
@@ -286,11 +286,11 @@ const FEATURED_PROPERTIES = [
 ];
 
 const styles = {
-  featuresContainer: "lg:py-[120px] py-[64px] bg-color-tertiary",
+  featuresContainer: "lg:py-[120px] w-full py-[64px] bg-color-tertiary",
   featuresHeading: "mb-16",
   featuresHeadingText: "font-semibold text-[42px] text-center mb-3",
   featuresHeadingDescription:
-    "max-w-3xl text-[18px] text-[#555555] px-4 mx-auto text-center",
+    "max-w-4xl text-[18px] text-[#555555] px-4 mx-auto text-center",
   FeaturesCardContainer: "flex w-full flex-wrap px-[16px] lg:px-[70px]",
   descriptionImageContainer: "lg:py-[120px] py-[60px] lg:px-0 px-[16px]",
   descriptionImageContainer_:
@@ -299,11 +299,19 @@ const styles = {
   descriptionImageDescription:
     "ml-auto text-right max-w-[543px] 2xl:max-w-[597px] lg:mr-[70px] text-[#999999] text-xs lg:text-sm mb-[70px]",
   featuredPropertiesContainer:
-    "bg-color-secondary px-[16px] 2xl:px-[72px] py-[60px] lg:py-[120px]",
-  featuredPropertiesContainer_: "mb-[82px] px-[16px] 2xl:px-[72px] flex items-center justify-between",
-  featuredPropertiesContainerHeading: "text-[42px] font-semibold text-white",
-  featuredPropertiesContainerDescription: "text-lg text-white",
+    "bg-color-secondary px-[16px] text-center 2xl:px-[72px] py-[60px] lg:py-[120px]",
+  featuredPropertiesContainer_: "mb-[82px] lg:flex justify-between items-center 2xl:px-[72px] text-center",
+  featuredPropertiesContainerHeading: "text-[30px] lg:px-[70px] lg:text-[42px] font-semibold text-white",
+  featuredPropertiesContainerDescription: "text-base lg:px-[70px] lg:text-left lg:text-lg text-white",
   featuredPropertiesCardContainer: "flex flex-wrap justify-around w-full",
 };
 
 export default Home;
+
+
+
+// - Use the right avatar
+// - Add team picture
+// - Make connect to wallet modal compact
+// - Connect to wallet flow to only Moonbase Alpha TestNet
+// - IPFS Upload using web3.storage following Opensea Metadata spec 

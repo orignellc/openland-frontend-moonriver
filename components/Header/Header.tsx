@@ -16,7 +16,7 @@ import Search from "../Search/Search";
 
 const styles = {
   nav: "bg-[#ffffff] z-[50] fixed w-full h-[93px] px-4 lg:px-[40px] 2xl:px-[50px]",
-  navItems: "flex w-full items-center justify-between h-full",
+  navItems: "w-full flex items-center justify-between h-full",
 };
 
 interface HeaderProps {
@@ -81,87 +81,89 @@ const Header: FC<HeaderProps> = (props) => {
               />
             </Link>
           </li>
-          <li className="w-[42px] h-[42px] rounded-[50%] relative" onClick={toggleSearch}>
-            <input
-              type="text"
-              // placeholder="search by property name or development company"
-              className="focus:outline-none rounded-[50%] h-full w-full bg-[#F7F8F8]"
-            />
-            <img
-              src="/assets/images/svg/magnifying-glass.svg"
-              alt="search-icon"
-              className="w-[18px] h-[18px] absolute top-[50%] -translate-y-1/2 -translate-x-1/2 left-[50%]"
-            />
-          </li>
-          <li className="hidden lg:block">
-            <ul className="flex text-[#555555] text-xs 2xl:text-sm">
-              <li>
-                <Link href="#">
-                  <a className="mx-[24px] 2xl:mx-8">Features</a>
-                </Link>
-              </li>
-              <li>
-                <Link href="#">
-                  <a className="mx-[24px] 2xl:mx-8">Explore</a>
-                </Link>
-              </li>
-              <li>
-                <Link href="#">
-                  <a className="mx-[24px] 2xl:mx-8">How It works</a>
-                </Link>
-              </li>
-              <li
-                className="flex cursor-pointer items-center relative"
-                onMouseEnter={toggleShowdropdown}
-                onMouseLeave={toggleShowdropdown}
-              >
-                <Link href="#">
-                  <a className="mx-[24px] 2xl:mx-8">More</a>
-                </Link>
-                <img
-                  src="/assets/images/svg/drop-down.svg"
-                  alt="more"
-                  className="w-3 h-[6px]"
-                />
-                {showDropdown && <Dropdown />}
-              </li>
-            </ul>
-          </li>
-          {!user && (
+          <ul className="flex items-center">
+            <li className="w-[42px] mr-4 h-[42px] rounded-[50%] relative" onClick={toggleSearch}>
+              <input
+                type="text"
+                // placeholder="search by property name or development company"
+                className="focus:outline-none rounded-[50%] h-full w-full bg-[#F7F8F8]"
+              />
+              <img
+                src="/assets/images/svg/magnifying-glass.svg"
+                alt="search-icon"
+                className="w-[18px] h-[18px] absolute top-[50%] -translate-y-1/2 -translate-x-1/2 left-[50%]"
+              />
+            </li>
             <li className="hidden lg:block">
-              <Button onClick={toggleConnectWalletModal} btnType="fill">
-                Connect wallet
-              </Button>
+              <ul className="flex text-[#555555] text-xs 2xl:text-sm">
+                <li>
+                  <Link href="#">
+                    <a className="mx-[24px] 2xl:mx-8">Features</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <a className="mx-[24px] 2xl:mx-8">Explore</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#">
+                    <a className="mx-[24px] 2xl:mx-8">How It works</a>
+                  </Link>
+                </li>
+                <li
+                  className="flex cursor-pointer items-center relative"
+                  onMouseEnter={toggleShowdropdown}
+                  onMouseLeave={toggleShowdropdown}
+                >
+                  <Link href="#">
+                    <a className="mx-[24px] 2xl:mx-8">More</a>
+                  </Link>
+                  <img
+                    src="/assets/images/svg/drop-down.svg"
+                    alt="more"
+                    className="w-3 h-[6px]"
+                  />
+                  {showDropdown && <Dropdown />}
+                </li>
+              </ul>
             </li>
-          )}
-          {user && (
-            <li className="hidden lg:block">
-              <Button link="/choose-property" btnType="outline">
-                Buy Fractions
-              </Button>
+            {!user && (
+              <li className="hidden lg:block mx-10">
+                <Button onClick={toggleConnectWalletModal} btnType="fill">
+                  Connect wallet
+                </Button>
+              </li>
+            )}
+            {user && (
+              <li className="hidden lg:block">
+                <Button link="/choose-property" btnType="outline">
+                  Buy Fractions
+                </Button>
+              </li>
+            )}
+            <li className="2xl:w-[52px] mr-[19px] w-[47px] h-[47px] 2xl:h-[52px] rounded-[100px] bg-[#F7F8F8] grid place-content-center overflow-hidden">
+              <Image src={SettingGear} alt="settings" width="22" height="22" />
             </li>
-          )}
-          <li className="2xl:w-[52px] w-[47px] h-[47px] 2xl:h-[52px] rounded-[100px] bg-[#F7F8F8] grid place-content-center overflow-hidden">
-            <Image src={SettingGear} alt="settings" width="22" height="22" />
-          </li>
-          {user && (
-            <li className="2xl:w-[52px] w-[44px] rounded-[50%] overflow-hidden h-[44px] 2xl:h-[52px]">
-              <Link href="#">
-                <Image
-                  src={Avatar}
-                  layout={"responsive"}
-                  className="cursor-pointer"
-                  alt="user-avatar"
-                />
-              </Link>
-            </li>
-          )}
+            {user && (
+              <li className="2xl:w-[52px] w-[44px] rounded-[50%] overflow-hidden h-[44px] 2xl:h-[52px]">
+                <Link href="#">
+                  <Image
+                    src={Avatar}
+                    layout={"responsive"}
+                    className="cursor-pointer"
+                    alt="user-avatar"
+                  />
+                </Link>
+              </li>
+            )}
 
-          <div className="cursor-pointer lg:hidden" onClick={toggleSidenav}>
-            <div className="w-[18px] h-[2px] bg-black my-1" />
-            <div className="w-[18px] h-[2px] bg-black my-1" />
-            <div className="w-[18px] h-[2px] bg-black my-1" />
-          </div>
+            <div className="cursor-pointer lg:hidden" onClick={toggleSidenav}>
+              <div className="w-[18px] h-[2px] bg-black my-1" />
+              <div className="w-[18px] h-[2px] bg-black my-1" />
+              <div className="w-[18px] h-[2px] bg-black my-1" />
+            </div>
+          </ul>
         </ul>
       </nav>
     </>

@@ -58,14 +58,14 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
               className="w-[24px] h-[30px]"
             />
           </div>
-          <p className="font-medium text-lg mb-1">{location}</p>
+          <p className="font-medium text-base text-center flex justify-start mb-1">{location}</p>
           <div className="flex justify-between mb-1">
             <p className="font-extrabold text-base">
               ${amountPerFraction} / fraction
             </p>
             <p className="font-semibold text-base">{sqm}sqm</p>
           </div>
-          <p>
+          <p className="flex justify-start">
             {fractionLeft} out of {fraction} fractions left
           </p>
         </div>
