@@ -171,10 +171,9 @@ const Header: FC<HeaderProps> = (props) => {
             {user && (
               <li className="2xl:w-[52px] w-[44px] rounded-[50%] overflow-hidden h-[44px] 2xl:h-[52px]">
                 <Link href="#">
-                  <Image
-                    src={Avatar}
-                    layout={"responsive"}
-                    className="cursor-pointer"
+                  <img
+                    src="/assets/images/svg/avatar.jpg"
+                    className="cursor-pointer w-full h-full object-cover"
                     alt="user-avatar"
                   />
                 </Link>
