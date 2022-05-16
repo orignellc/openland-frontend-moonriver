@@ -26,7 +26,10 @@ const connectedNetworkCheck = async () => {
             return response
         } catch (error: any) {
             console.log("ERROR", error)
-            throw new Error(error)
+            if (typeof window !== "undefined") {
+                alert("Please connect to moon river")
+            }
+            return error
         }
     }
 }

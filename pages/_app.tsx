@@ -6,7 +6,8 @@ import { Web3Provider } from "@ethersproject/providers";
 import Layout from "../components/HOC/Layout/Layout";
 import { AuthProvider } from "../context/Context";
 import Backdrop from "../components/ui/Backdrop/Backdrop";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import connectedNetworkCheck from "../utils/connectedNetworkCheck";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const getLibrary = (provider: any) => {
@@ -14,6 +15,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   const [show, setShow] = useState(true)
+
+  // @ts-ignore
+  if (typeof window !== "undefined") window.ethereum.on('networkChanged', async () => await connectedNetworkCheck());
+  useEffect(() => {
+  }, [])
 
   return (
     <AuthProvider>
