@@ -14,14 +14,14 @@ const ConnectionCard: FC<ConnectionCardProps> = (props) => {
   return (
     <div
       onClick={connectToMetamask}
-      className="w-full border-[0.5px] mb-2 border-[#999999] cursor-pointer rounded-xl flex px-5 items-center lg:px-[94px] py-5 lg:py-[57px]"
+      className="w-full border-[0.5px] mb-2 border-[#999999] cursor-pointer rounded-xl justify-between flex px-5 items-center py-5"
     >
       <img
         src={connectionImg}
         alt={providerName}
-        className="lg:w-[76px] w-[48px] h-[47px] lg:h-[74px] mr-[55px]"
+        className="lg:w-[76px] w-[48px] h-[47px] lg:h-[74px] mr-[5px]"
       />
-      <p className="font-medium text-xs lg:text-2xl">{providerName}</p>
+      <p className="font-medium text-xs lg:text-xl">{providerName}</p>
     </div>
   );
 };
@@ -35,13 +35,13 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = (props) => {
   const { toggleConnectWalletModal, connectToMetamask } = props;
 
   return (
-    <div className="bg-white px-[30px] py-[34px] lg:px-[70px] border rounded-3xl w-[344px] lg:w-[933px]">
-      <div className="w-full flex justify-between items-center mb-[60px]">
+    <div className="bg-white px-[30px] py-[34px] border rounded-3xl w-[344px] ">
+      <div className="w-full flex justify-between items-center mb-[20px]">
         <div className="flex items-start flex-col text-left">
-          <h3 className="font-semibold text-[19px] lg:text-[42px] mb-3">
+          <h3 className="font-semibold text-[19px] lg:text-2xl mb-3">
             Connect your wallet
           </h3>
-          <p className="font-medium text-[11.5px] lg:text-xl">
+          <p className="font-medium text-[11.5px]">
             Connect with any of these available wallet providers
           </p>
         </div>

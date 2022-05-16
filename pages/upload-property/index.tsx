@@ -54,7 +54,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
 
   const captureFile = (event: ChangeEvent<HTMLInputElement>) => {
     console.log("CHANGED")
-    
+    console.log(event.target.files)
   }
 
   return (
@@ -185,7 +185,8 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
                 id="upload-image" 
                 className="hidden" 
                 type="file" 
-                onChange={captureFile} 
+                onChange={captureFile}
+                multiple 
                 // {...register("image", {
                 //   required: "Please upload an image",
                 // })}

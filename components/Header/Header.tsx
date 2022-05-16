@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ethers } from "ethers";
@@ -13,6 +13,7 @@ import ConnectWalletModal from "../ConnectWalletModal/ConnectWalletModal";
 import Dropdown from "./Dropdown";
 import { AuthContext } from "../../context/Context";
 import Search from "../Search/Search";
+import connectedNetworkCheck from "../../utils/connectedNetworkCheck";
 
 const styles = {
   nav: "bg-[#ffffff] z-[50] fixed w-full h-[93px] px-4 lg:px-[40px] 2xl:px-[50px]",
@@ -40,26 +41,48 @@ const Header: FC<HeaderProps> = (props) => {
   const toggleSearch = () => setShowSearch(prevState => !prevState)
 
   const connectToMetamask = async () => {
+    if (typeof window === "undefined") return
+    // @ts-ignore
+    if (!window.ethereum) { // Checking if the user has metamask
+      return alert("Please you need to have metamask installed");
+    }
+
+    // @ts-ignore
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+
+    // CHECK CONNECTED NETWORK
+    try {
+      await connectedNetworkCheck()
+      dispatch({
+        type: "LOGGED_IN_USER",
+        payload: accounts[0]
+      })
+    } catch (error) {
+      alert("Please add moonbase network to continue")
+    }
+    setShowConnectWalletModal(false)
+  };
+
+  const connectWallet = async () => {
     if (typeof window !== "undefined") {
       // @ts-ignore
       if (!window.ethereum) { // Checking if the user has metamask
         return alert("Please you need to have metamask installed");
       }
 
+      await connectToMetamask();
       // @ts-ignore
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      // Update our global application state
-      dispatch({
-        type: "LOGGED_IN_USER",
-        payload: accounts[0]
-      })
-
-      setShowConnectWalletModal(false)
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      // @ts-ignore
+      // console.log(ethers.providers.getNetwork(0x505))
     }
-  };
+  }
+
+  // useEffect(() => {
+  //   connectWallet()
+  // }, [])
 
   return (
     <>
@@ -136,7 +159,7 @@ const Header: FC<HeaderProps> = (props) => {
               </li>
             )}
             {user && (
-              <li className="hidden lg:block">
+              <li className="hidden lg:block mx-[17px]">
                 <Button link="/choose-property" btnType="outline">
                   Buy Fractions
                 </Button>

@@ -16,12 +16,14 @@
     "@web3-react/injected-connector": "^6.0.7",
     "ethers": "^5.6.5",
     "framer-motion": "^6.3.3",
+    "minimist": "^1.2.6",
     "next": "^12.1.7-canary.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-hook-form": "^7.31.1",
     "react-ipfs-uploader": "^1.2.5",
-    "react-range": "^1.8.12"
+    "react-range": "^1.8.12",
+    "web3.storage": "^4.2.0"
   },
   "devDependencies": {
     "@types/node": "17.0.25",

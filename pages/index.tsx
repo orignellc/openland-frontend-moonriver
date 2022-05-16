@@ -165,7 +165,7 @@ const Home: NextPage = () => {
           <span className="text-sm">Powered by</span>{" "}
           <Link href="#">
             <a className="font-normal text-lg text-black underline">
-              Origne LLC
+              Origineum FZCO
             </a>
           </Link>
         </p>
@@ -315,3 +315,12 @@ export default Home;
 // - Make connect to wallet modal compact
 // - Connect to wallet flow to only Moonbase Alpha TestNet
 // - IPFS Upload using web3.storage following Opensea Metadata spec 
+
+// - Step one: User clicks on connect
+// - Step Two: User clicks on connect with Metamask
+// - Step Three: COnnect user to Metamask
+// - Step 4: Check the ethereum.netwrokversion = moonriver network id
+// - Step 5: If it is moonriver network ID, do nothing else add moonriver network to user metamask
+
+// STORE THE DETAILS ON THE API
+// MINT THE PROPERTY AND STORE IT ON THE API BACKEND...
