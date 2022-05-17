@@ -16,8 +16,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const [show, setShow] = useState(true)
 
-  // @ts-ignore
-  if (typeof window !== "undefined") window.ethereum.on('networkChanged', async () => await connectedNetworkCheck());
+  if (typeof window !== "undefined") {
+    // @ts-ignore
+    window.ethereum.on('networkChanged', async () => await connectedNetworkCheck());
+  }
+
+  // window.ethereum.selectedAddress
+
   useEffect(() => {
   }, [])
 

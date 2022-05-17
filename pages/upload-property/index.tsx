@@ -1,6 +1,9 @@
 import { ChangeEvent, FC, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Web3Storage, getFilesFromPath } from "web3.storage"
 
+import { uploadPropertyToIpfs } from "../../services/uploadPropertyToIpfs"
+import makeFilesObject from "../../utils/makeFilesObject"
 import Tabs from "../../components/pages/ChooseProperty/Tabs";
 import Input from "../../components/ui/Input/Input";
 import Backdrop from "../../components/ui/Backdrop/Backdrop";
@@ -8,6 +11,7 @@ import UploadPropertyConfirmationModal from "../../components/UploadPropertyConf
 import PropertyUploadSuccessModal from "../../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
 
 import { useRouter } from "next/router";
+import PropertyModel from "../../models/propertyModel";
 
 interface UploadPropertyModal {
   togglePropertyModal: () => void;
@@ -20,30 +24,31 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
   const [successUpload, setSuccessUpload] = useState(false)
   const [showUploadedProperties, setShowUploadedProperties] = useState(false)
   const [info, setInfo] = useState(true)
-  const [data, setFormData] = useState<propertyModel>({name: "", location: "", title: "", size: "", about: "", image: ""})
+  const [data, setFormData] = useState<PropertyModel>({ name: "", location: "", title: "", size: "", about: "", image: "" })
   const [fileUrl, setFileUrl] = useState("");
 
   const router = useRouter()
-
-  interface propertyModel {
-    name: string,
-    location: string,
-    title: string,
-    size: string,
-    about: string,
-    image: any
-  }
 
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors },
-  } = useForm<propertyModel>();
+  } = useForm<PropertyModel>();
 
   const formSubmitHandler = async () => {
-    // SUBMIT THE FORM
-    console.log(data)
+    const formattedData = makeFilesObject(data)
+
+    // SEND TO WEB3STORAGE
+    try {
+      const response = await uploadPropertyToIpfs(formattedData)
+      console.log("RESPONSE", response)
+    } catch (error) {
+      console.log("ERRORRR", error)
+    }
+
+    // MINT PROPERTY
+
     setConfirmationModal(false)
     setSuccessUpload(true)
   }
@@ -52,9 +57,14 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
     setShowUploadedProperties(true)
   }
 
-  const captureFile = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("CHANGED")
-    console.log(event.target.files)
+
+
+  const captureFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const storage = new Web3Storage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDQ0MmMzZTk4NGNhY0MxODZCMDVCY2IyNGMyZUQzN2VBNDQ1OEJFMGQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTI3MTQ0NTE5MTUsIm5hbWUiOiJvcGVubGFuZCJ9.Z2BBkxc7cQ9Ot5ZD8_LLAqSA4ck9fgNUrwJjoIzj9Zg" })
+
+    // const files = makeFileObjects()
+    // const cid = await storage.put(files)
+    // https://dweb.link/ipfs/${cid} THIS IS THE RETURNED URL
   }
 
   return (
@@ -181,15 +191,15 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
           <div className="flex flex-col mb-10">
             <label htmlFor="upload-image" className="mb-[6px]">
               <p className="mb-2">Upload photos *</p>
-              <input 
-                id="upload-image" 
-                className="hidden" 
-                type="file" 
+              <input
+                id="upload-image"
+                className="hidden"
+                type="file"
                 onChange={captureFile}
-                multiple 
-                // {...register("image", {
-                //   required: "Please upload an image",
-                // })}
+                multiple
+              // {...register("image", {
+              //   required: "Please upload an image",
+              // })}
               />
               <div className="w-full text-center grid place-content-center h-[200px] border border-[#D6D6DD] cursor-pointer border-dotted">
                 <img
