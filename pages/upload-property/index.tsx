@@ -1,6 +1,9 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Web3Storage, getFilesFromPath } from "web3.storage"
+import { Web3Storage } from "web3.storage"
+import * as ethers from "ethers";
+import Web3Modal from "web3modal"
+import { useRouter } from "next/router";
 
 import { uploadPropertyToIpfs } from "../../services/uploadPropertyToIpfs"
 import makeFilesObject from "../../utils/makeFilesObject"
@@ -9,9 +12,11 @@ import Input from "../../components/ui/Input/Input";
 import Backdrop from "../../components/ui/Backdrop/Backdrop";
 import UploadPropertyConfirmationModal from "../../components/UploadPropertyConfirmationModal/UploadPropertyConfirmationModal";
 import PropertyUploadSuccessModal from "../../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
+import FractionSalesModal from "../../components/FractionSalesModal/FractionSalesModal";
 
-import { useRouter } from "next/router";
 import PropertyModel from "../../models/propertyModel";
+import { FACTORY_ADDRESS, NFT_ADDRESS } from "../../constants/contractAddresses";
+const NFT_ABI = require("../../abi/nftabi.json")
 
 interface UploadPropertyModal {
   togglePropertyModal: () => void;
@@ -23,7 +28,9 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
   const [confirmationModal, setConfirmationModal] = useState(false)
   const [successUpload, setSuccessUpload] = useState(false)
   const [showUploadedProperties, setShowUploadedProperties] = useState(false)
+  const [showFractionSalesModal, setShowFractionSalesModal] = useState(false)
   const [info, setInfo] = useState(true)
+  const [url, setUrl] = useState("")
   const [data, setFormData] = useState<PropertyModel>({ name: "", location: "", title: "", size: "", about: "", image: "" })
   const [fileUrl, setFileUrl] = useState("");
 
@@ -39,25 +46,38 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
   const formSubmitHandler = async () => {
     const formattedData = makeFilesObject(data)
 
+    // UPLOAD IMAGE
+
     // SEND TO WEB3STORAGE
     try {
-      const response = await uploadPropertyToIpfs(formattedData)
-      console.log("RESPONSE", response)
+      const urlResponse = await uploadPropertyToIpfs(formattedData)
+      setUrl(urlResponse)
     } catch (error) {
       console.log("ERRORRR", error)
     }
 
-    // MINT PROPERTY
+
+    const web3modal = new Web3Modal()
+    const connection = await web3modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+
+    const nftContract = new ethers.Contract(NFT_ADDRESS, NFT_ABI, signer)
+
+    const mintProperty = await nftContract.mintProperty(url)
+
+    await mintProperty.wait()
+
+    const userWalletAddress = window.ethereum.selectedAddress()
 
     setConfirmationModal(false)
     setSuccessUpload(true)
+
+    router.push(`${userWalletAddress}/uploaded-properties`)
   }
 
-  const toggleShowUploadedProperties = () => {
-    setShowUploadedProperties(true)
-  }
-
-
+  const toggleShowUploadedProperties = () => setShowUploadedProperties(true)
+  const toggleShowFractionSalesModal = () => setShowFractionSalesModal(true)
 
   const captureFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const storage = new Web3Storage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDQ0MmMzZTk4NGNhY0MxODZCMDVCY2IyNGMyZUQzN2VBNDQ1OEJFMGQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTI3MTQ0NTE5MTUsIm5hbWUiOiJvcGVubGFuZCJ9.Z2BBkxc7cQ9Ot5ZD8_LLAqSA4ck9fgNUrwJjoIzj9Zg" })
@@ -74,6 +94,9 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
       </Backdrop>
       <Backdrop showBackdrop={successUpload}>
         <PropertyUploadSuccessModal toggleShowUploadedProperties={toggleShowUploadedProperties} />
+      </Backdrop>
+      <Backdrop showBackdrop={successUpload}>
+        <FractionSalesModal toggleShowFractionSalesModal={toggleShowFractionSalesModal} />
       </Backdrop>
       <div className="px-4 lg:px-[134px] py-10 lg:py-[137px] top-0 left-0 fixed z-[60] bg-white w-screen h-screen overflow-y-scroll">
         <div className="flex justify-between">
@@ -266,3 +289,4 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
 };
 
 export default UploadProperty;
+

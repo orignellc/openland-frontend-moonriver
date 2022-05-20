@@ -2,11 +2,13 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
+import { MoralisProvider } from "react-moralis";
+import { Moralis } from "moralis";
+import { useEffect, useState } from "react";
 
 import Layout from "../components/HOC/Layout/Layout";
 import { AuthProvider } from "../context/Context";
 import Backdrop from "../components/ui/Backdrop/Backdrop";
-import { useEffect, useState } from "react";
 import connectedNetworkCheck from "../utils/connectedNetworkCheck";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -24,13 +26,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   // window.ethereum.selectedAddress
 
   useEffect(() => {
+    Moralis.start({ serverUrl: "https://xbdecblvnxap.usemoralis.com:2053/server", appId: "qr2PCNBRpTUTKtjpReJkVY9w4I2tsPrACGhMpnMv" })
   }, [])
 
   return (
     <AuthProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
-          <Component {...pageProps} />
+          <MoralisProvider serverUrl="https://xbdecblvnxap.usemoralis.com:2053/server" appId="qr2PCNBRpTUTKtjpReJkVY9w4I2tsPrACGhMpnMv">
+            <Component {...pageProps} />
+          </MoralisProvider >
         </Layout>
       </Web3ReactProvider>
     </AuthProvider>

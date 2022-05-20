@@ -1,5 +1,7 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { Moralis } from "moralis";
 import { useRouter } from "next/router";
+import { useMoralisWeb3Api } from "react-moralis";
 
 import Tabs from "../../../components/pages/ChooseProperty/Tabs"
 import PropertiesCard from "../../../components/PropertiesCard/PropertiesCard";
@@ -14,6 +16,36 @@ const UploadedProperties = () => {
     const propertyDetailsHandler = () => {
         router.push("/user-1/uploaded-properties/p1")
     }
+
+    useEffect(() => {
+        Moralis.start({ serverUrl: "https://xbdecblvnxap.usemoralis.com:2053/server", appId: "qr2PCNBRpTUTKtjpReJkVY9w4I2tsPrACGhMpnMv" })
+    }, [])
+
+    const Web3Api = useMoralisWeb3Api();
+    useEffect(() => {
+        const userAddress = window.location.pathname.split("/")[1]
+        // Fetch User NFT
+
+        const fetchNFTs = async () => {
+            // get NFTs for current user on Mainnet
+            // const userEthNFTs = await Web3Api.account.getNFTs();
+            // console.log(userEthNFTs);
+            // get testnet NFTs for user
+            // const testnetNFTs = await Web3Api.Web3API.account.getNFTs({
+            //     chain: "ropsten",
+            // });
+            // console.log(testnetNFTs);
+
+            // get polygon NFTs for address
+            const options = {
+                chain: "polygon",
+                address: userAddress,
+            };
+            const polygonNFTs = await Web3Api.account.getNFTs({ address: "0x027B533Cf04D4CCEdc0C9df97405fe230E6c71af" });
+            console.log("NTFS", polygonNFTs)
+        };
+        fetchNFTs()
+    }, [])
 
     return (
         <>
