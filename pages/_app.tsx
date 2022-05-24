@@ -25,17 +25,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // window.ethereum.selectedAddress
 
-  useEffect(() => {
-    Moralis.start({ serverUrl: "https://xbdecblvnxap.usemoralis.com:2053/server", appId: "qr2PCNBRpTUTKtjpReJkVY9w4I2tsPrACGhMpnMv" })
-  }, [])
-
   return (
     <AuthProvider>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Layout>
-          <MoralisProvider serverUrl="https://xbdecblvnxap.usemoralis.com:2053/server" appId="qr2PCNBRpTUTKtjpReJkVY9w4I2tsPrACGhMpnMv">
             <Component {...pageProps} />
-          </MoralisProvider >
         </Layout>
       </Web3ReactProvider>
     </AuthProvider>

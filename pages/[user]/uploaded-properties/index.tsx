@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react"
-import { Moralis } from "moralis";
+import axios from "axios"
 import { useRouter } from "next/router";
-import { useMoralisWeb3Api } from "react-moralis";
+import { Web3Storage } from "web3.storage"
+import * as ethers from "ethers";
+import Web3Modal from "web3modal"
 
 import Tabs from "../../../components/pages/ChooseProperty/Tabs"
 import PropertiesCard from "../../../components/PropertiesCard/PropertiesCard";
 import Backdrop from "../../../components/ui/Backdrop/Backdrop";
+import { NFT_ADDRESS } from "../../../constants/contractAddresses";
+const NFT_ABI = require("../../../abi/nftabi.json")
 
 
 const UploadedProperties = () => {
     const [showPropertyDetails, setShowPropertiesDetails] = useState(false)
+    const [FetchedNFTs, setNFTs] = useState<any>([])
 
     const router = useRouter()
 
@@ -18,32 +23,31 @@ const UploadedProperties = () => {
     }
 
     useEffect(() => {
-        Moralis.start({ serverUrl: "https://xbdecblvnxap.usemoralis.com:2053/server", appId: "qr2PCNBRpTUTKtjpReJkVY9w4I2tsPrACGhMpnMv" })
-    }, [])
-
-    const Web3Api = useMoralisWeb3Api();
-    useEffect(() => {
         const userAddress = window.location.pathname.split("/")[1]
         // Fetch User NFT
-
         const fetchNFTs = async () => {
-            // get NFTs for current user on Mainnet
-            // const userEthNFTs = await Web3Api.account.getNFTs();
-            // console.log(userEthNFTs);
-            // get testnet NFTs for user
-            // const testnetNFTs = await Web3Api.Web3API.account.getNFTs({
-            //     chain: "ropsten",
-            // });
-            // console.log(testnetNFTs);
+            const { data: { result: NFTs } } = await axios.get("https://api-moonriver.moonscan.io/api?module=account&action=tokennfttx&address=0x027B533Cf04D4CCEdc0C9df97405fe230E6c71af&startblock=0&endblock=999999999&sort=asc")
 
-            // get polygon NFTs for address
-            const options = {
-                chain: "polygon",
-                address: userAddress,
-            };
-            const polygonNFTs = await Web3Api.account.getNFTs({ address: "0x027B533Cf04D4CCEdc0C9df97405fe230E6c71af" });
-            console.log("NTFS", polygonNFTs)
+            const web3modal = new Web3Modal()
+            const connection = await web3modal.connect()
+            const provider = new ethers.providers.Web3Provider(connection)
+            const signer = provider.getSigner()
+
+            const nftContract = new ethers.Contract(NFT_ADDRESS, NFT_ABI, signer)
+            let transformedNFT = [];
+
+            for (let i = 0; i <= NFTs.length - 1; i++) {
+                const NFTItem = NFTs[i];
+
+                const NFTsURI = await nftContract.tokenURI(NFTItem.tokenID)
+                transformedNFT.push(NFTsURI)
+            }
+
+            setNFTs(transformedNFT)
+            console.log(transformedNFT)
+
         };
+
         fetchNFTs()
     }, [])
 

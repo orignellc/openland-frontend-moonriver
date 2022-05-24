@@ -49,12 +49,14 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
     // UPLOAD IMAGE
 
     // SEND TO WEB3STORAGE
-    try {
+    // try {
       const urlResponse = await uploadPropertyToIpfs(formattedData)
-      setUrl(urlResponse)
-    } catch (error) {
-      console.log("ERRORRR", error)
-    }
+      console.log(urlResponse);
+      
+    //   setUrl(urlResponse)
+    // } catch (error) {
+    //   console.log("ERRORRR", error)
+    // }
 
 
     const web3modal = new Web3Modal()
@@ -64,7 +66,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
 
     const nftContract = new ethers.Contract(NFT_ADDRESS, NFT_ABI, signer)
 
-    const mintProperty = await nftContract.mintProperty(url)
+    const mintProperty = await nftContract.mintProperty(urlResponse)
 
     await mintProperty.wait()
 
