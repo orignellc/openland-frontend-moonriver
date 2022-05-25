@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { useRouter } from "next/router";
-import { Web3Storage } from "web3.storage"
 import * as ethers from "ethers";
-import Web3Modal from "web3modal"
 
 import Tabs from "../../../components/pages/ChooseProperty/Tabs"
 import PropertiesCard from "../../../components/PropertiesCard/PropertiesCard";
 import Backdrop from "../../../components/ui/Backdrop/Backdrop";
 import { NFT_ADDRESS } from "../../../constants/contractAddresses";
+import GetWeb3Signer from "../../../utils/getWeb3Signer";
 const NFT_ABI = require("../../../abi/nftabi.json")
 
 
@@ -26,12 +25,9 @@ const UploadedProperties = () => {
         const userAddress = window.location.pathname.split("/")[1]
         // Fetch User NFT
         const fetchNFTs = async () => {
-            const { data: { result: NFTs } } = await axios.get("https://api-moonriver.moonscan.io/api?module=account&action=tokennfttx&address=0x027B533Cf04D4CCEdc0C9df97405fe230E6c71af&startblock=0&endblock=999999999&sort=asc")
+            const { data: { result: NFTs } } = await axios.get(`https://api-moonriver.moonscan.io/api?module=account&action=tokennfttx&address=${userAddress}&startblock=0&endblock=999999999&sort=asc`)
 
-            const web3modal = new Web3Modal()
-            const connection = await web3modal.connect()
-            const provider = new ethers.providers.Web3Provider(connection)
-            const signer = provider.getSigner()
+            const signer = await new GetWeb3Signer().getSigner()
 
             const nftContract = new ethers.Contract(NFT_ADDRESS, NFT_ABI, signer)
             let transformedNFT = [];
@@ -40,14 +36,15 @@ const UploadedProperties = () => {
                 const NFTItem = NFTs[i];
 
                 const NFTsURI = await nftContract.tokenURI(NFTItem.tokenID)
-                transformedNFT.push(NFTsURI)
+                if (NFTsURI.length > 0) {
+                    const { data: nftData } = await axios.get(`${NFTsURI}/property-details.json`)
+                    transformedNFT.push(nftData)
+                }
             }
 
             setNFTs(transformedNFT)
             console.log(transformedNFT)
-
         };
-
         fetchNFTs()
     }, [])
 

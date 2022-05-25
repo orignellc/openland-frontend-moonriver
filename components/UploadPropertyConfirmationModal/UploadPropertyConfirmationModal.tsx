@@ -5,10 +5,11 @@ import warning from "../../public/assets/images/svg/warning.svg"
 
 interface UploadPropertyConfirmationModalProps {
     formSubmitHandler: () => Promise<void>
+    minting: boolean
 }
 
 const UploadPropertyConfirmationModal: FC<UploadPropertyConfirmationModalProps> = (props) => {
-    const { formSubmitHandler } = props
+    const { formSubmitHandler, minting } = props
 
     return (
         <div className="w-[326px] mx-auto lg:w-[873px] rounded-2xl bg-white py-[38px] px-4 lg:px-[70px] relative">
@@ -24,7 +25,7 @@ const UploadPropertyConfirmationModal: FC<UploadPropertyConfirmationModalProps> 
             <div className="grid place-content-center">
                 <div className="flex">
                     <button className="py-[9px] px-[46px] lg:px-[57px] border font-medium mr-[14px] text-sm rounded-md border-[#D1D5DB]">Cancel</button>
-                    <button className="py-[9px] px-[46px] lg:px-[57px] border font-medium text-sm text-white rounded-md bg-[#0FB95D]" onClick={formSubmitHandler}>Continue</button>
+                    <button className="py-[9px] px-[46px] lg:px-[57px] border font-medium text-sm text-white rounded-md bg-[#0FB95D]" onClick={formSubmitHandler}>{minting ? "Minting..." : "Continue"}</button>
                 </div>
             </div>
         </div>

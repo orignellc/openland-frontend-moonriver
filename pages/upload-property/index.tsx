@@ -1,38 +1,41 @@
-import { ChangeEvent, FC, useState, useEffect } from "react";
+import { ChangeEvent, FC, useState, useEffect, SetStateAction, Dispatch } from "react";
 import { useForm } from "react-hook-form";
 import { Web3Storage } from "web3.storage"
 import * as ethers from "ethers";
-import Web3Modal from "web3modal"
 import { useRouter } from "next/router";
+import { Range, getTrackBackground } from "react-range";
 
 import { uploadPropertyToIpfs } from "../../services/uploadPropertyToIpfs"
 import makeFilesObject from "../../utils/makeFilesObject"
 import Tabs from "../../components/pages/ChooseProperty/Tabs";
-import Input from "../../components/ui/Input/Input";
+import GetWeb3Signer from "../../utils/getWeb3Signer"
 import Backdrop from "../../components/ui/Backdrop/Backdrop";
 import UploadPropertyConfirmationModal from "../../components/UploadPropertyConfirmationModal/UploadPropertyConfirmationModal";
 import PropertyUploadSuccessModal from "../../components/PropertyUploadSuccessModal/PropertyUploadSuccessModal";
 import FractionSalesModal from "../../components/FractionSalesModal/FractionSalesModal";
 
 import PropertyModel from "../../models/propertyModel";
-import { FACTORY_ADDRESS, NFT_ADDRESS } from "../../constants/contractAddresses";
+import { NFT_ADDRESS } from "../../constants/contractAddresses";
 const NFT_ABI = require("../../abi/nftabi.json")
 
 interface UploadPropertyModal {
   togglePropertyModal: () => void;
 }
 
+const intialFormState: PropertyModel = { name: "", location: "", title: "", size: 0, about: "", image: "", landmark: "", propertyFeatures: "" }
+
 const UploadProperty: FC<UploadPropertyModal> = (props) => {
   const { togglePropertyModal } = props;
 
   const [confirmationModal, setConfirmationModal] = useState(false)
   const [successUpload, setSuccessUpload] = useState(false)
+  const [minting, setMinting] = useState(false)
   const [showUploadedProperties, setShowUploadedProperties] = useState(false)
   const [showFractionSalesModal, setShowFractionSalesModal] = useState(false)
   const [info, setInfo] = useState(true)
-  const [url, setUrl] = useState("")
-  const [data, setFormData] = useState<PropertyModel>({ name: "", location: "", title: "", size: "", about: "", image: "" })
-  const [fileUrl, setFileUrl] = useState("");
+  const [localImageUrl, setLocalImageUrl] = useState<any>()
+  const [percentageToFractionalize, setPercentageToFractionalize] = useState([0.01]);
+  const [data, setFormData] = useState<PropertyModel>(intialFormState)
 
   const router = useRouter()
 
@@ -44,25 +47,26 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
   } = useForm<PropertyModel>();
 
   const formSubmitHandler = async () => {
-    const formattedData = makeFilesObject(data)
+    setMinting(true)
+    // 1_ IMAGE UPLOAD
+    const storage = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN! })
 
-    // UPLOAD IMAGE
+    if (!localImageUrl) return alert("Please select an image")
+    const imageFile = makeFilesObject({ localImageUrl }, "image-url.json")
 
-    // SEND TO WEB3STORAGE
-    // try {
-      const urlResponse = await uploadPropertyToIpfs(formattedData)
-      console.log(urlResponse);
-      
-    //   setUrl(urlResponse)
-    // } catch (error) {
-    //   console.log("ERRORRR", error)
-    // }
+    const cid = await storage.put(imageFile)
+    const imageUrl = `https://dweb.link/ipfs/${cid}`
 
+    const formattedData = makeFilesObject(
+      { ...data, percentageToFractionalize: percentageToFractionalize[0], image: imageUrl },
+      "property-details.json"
+    )
 
-    const web3modal = new Web3Modal()
-    const connection = await web3modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
+    // 2_ SEND DATA TO IPFS
+    const urlResponse = await uploadPropertyToIpfs(formattedData)
+
+    // 3_ MINT Property   
+    const signer = await new GetWeb3Signer().getSigner()
 
     const nftContract = new ethers.Contract(NFT_ADDRESS, NFT_ABI, signer)
 
@@ -70,29 +74,27 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
 
     await mintProperty.wait()
 
-    const userWalletAddress = window.ethereum.selectedAddress()
+    const userWalletAddress = typeof window !== "undefined" && window.ethereum.selectedAddress
 
     setConfirmationModal(false)
     setSuccessUpload(true)
+    setMinting(false)
 
     router.push(`${userWalletAddress}/uploaded-properties`)
+  }
+
+  // Handle Change
+  const captureFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    setLocalImageUrl(event.target.files![0])
   }
 
   const toggleShowUploadedProperties = () => setShowUploadedProperties(true)
   const toggleShowFractionSalesModal = () => setShowFractionSalesModal(true)
 
-  const captureFile = async (event: ChangeEvent<HTMLInputElement>) => {
-    const storage = new Web3Storage({ token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDQ0MmMzZTk4NGNhY0MxODZCMDVCY2IyNGMyZUQzN2VBNDQ1OEJFMGQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTI3MTQ0NTE5MTUsIm5hbWUiOiJvcGVubGFuZCJ9.Z2BBkxc7cQ9Ot5ZD8_LLAqSA4ck9fgNUrwJjoIzj9Zg" })
-
-    // const files = makeFileObjects()
-    // const cid = await storage.put(files)
-    // https://dweb.link/ipfs/${cid} THIS IS THE RETURNED URL
-  }
-
   return (
     <>
       <Backdrop showBackdrop={confirmationModal}>
-        <UploadPropertyConfirmationModal formSubmitHandler={formSubmitHandler} />
+        <UploadPropertyConfirmationModal minting={minting} formSubmitHandler={formSubmitHandler} />
       </Backdrop>
       <Backdrop showBackdrop={successUpload}>
         <PropertyUploadSuccessModal toggleShowUploadedProperties={toggleShowUploadedProperties} />
@@ -176,7 +178,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
               <label className="font-medium text-[#1C2420] mb-[6px]" htmlFor="What is the total size of your property? *">
                 What is the total size of your property? *
               </label>
-              <input  {...register("size", {
+              <input type="number" {...register("size", {
                 required: "Please specify the size of your property in SQM",
               })}
                 id="What is the total size of your property? *" className="border border-[#D6D6DD] rounded-[4px] shadow-sm focus:outline-none px-2 py-2" />
@@ -188,8 +190,14 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
               )}
             </div>
 
-            <div className="flex items-center">
-              How many do you want to fractionalize? *
+            <div className="flex items-start flex-col">
+              <p className="text-left">How many do you want to fractionalize? *</p>
+
+              <RangeComponent
+                percentageToFractionalize={percentageToFractionalize}
+                setPercentageToFractionalize={setPercentageToFractionalize}
+              />
+              <span>50%</span>
             </div>
           </div>
 
@@ -213,6 +221,47 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
             )}
           </div>
 
+          <div className="flex flex-col mb-6">
+            <label htmlFor="landmark" className="mb-[6px]">
+              What are the Landmarks? *
+            </label>
+            <textarea
+              id=""
+              cols={30}
+              rows={2.5}
+              className="border border-[#D6D6DD] focus:outline-none p-5"
+              {...register("landmark", {
+                required: "Please what are the landmarks associated with the property",
+              })}
+            />
+            {errors.landmark && (
+              <p className="text-red-500 text-xs italic">
+                {errors.landmark.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col mb-6">
+            <label htmlFor="propertyFeatures" className="mb-[6px]">
+              What are the Estate Features? *
+            </label>
+            <textarea
+              id=""
+              cols={30}
+              rows={2.5}
+              className="border border-[#D6D6DD] focus:outline-none p-5"
+              {...register("propertyFeatures", {
+                required: "Please list property features",
+              })}
+            />
+            {errors.propertyFeatures && (
+              <p className="text-red-500 text-xs italic">
+                {errors.propertyFeatures.message}
+              </p>
+            )}
+          </div>
+
+
           <div className="flex flex-col mb-10">
             <label htmlFor="upload-image" className="mb-[6px]">
               <p className="mb-2">Upload photos *</p>
@@ -221,10 +270,6 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
                 className="hidden"
                 type="file"
                 onChange={captureFile}
-                multiple
-              // {...register("image", {
-              //   required: "Please upload an image",
-              // })}
               />
               <div className="w-full text-center grid place-content-center h-[200px] border border-[#D6D6DD] cursor-pointer border-dotted">
                 <img
@@ -292,3 +337,61 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
 
 export default UploadProperty;
 
+interface RangeComponentProps {
+  setPercentageToFractionalize: Dispatch<SetStateAction<number[]>>
+  percentageToFractionalize: number[]
+}
+
+const RangeComponent: FC<RangeComponentProps> = (props) => {
+  const { setPercentageToFractionalize, percentageToFractionalize } = props
+
+  const RANGE_STEP = 0.01;
+  const RANGE_MIN_VALUE = 0.01;
+  const RANGE_MAX_VALUE = 50;
+
+  return (
+    <Range
+      values={percentageToFractionalize}
+      step={RANGE_STEP}
+      min={RANGE_MIN_VALUE}
+      max={RANGE_MAX_VALUE}
+      onChange={(values) => setPercentageToFractionalize(values)}
+      renderTrack={({ props, children }) => (
+        <div
+          onMouseDown={props.onMouseDown}
+          onTouchStart={props.onTouchStart}
+          style={{
+            ...props.style,
+            height: "36px",
+            display: "flex",
+            width: "100%",
+          }}
+        >
+          <div
+            ref={props.ref}
+            style={{
+              height: "5px",
+              width: "100%",
+              borderRadius: "4px",
+              background: getTrackBackground({
+                values: percentageToFractionalize,
+                colors: ["#0FB95D", "#F4F5F4"],
+                min: RANGE_MIN_VALUE,
+                max: RANGE_MAX_VALUE,
+              }),
+              alignSelf: "center",
+            }}
+          >
+            {children}
+          </div>
+        </div>
+      )}
+      renderThumb={({ props, isDragged }) => (
+        <div
+          {...props}
+          className="h-[14px] w-[14px] rounded-[50%] bg-white outline-none"
+        />
+      )}
+    />
+  );
+};

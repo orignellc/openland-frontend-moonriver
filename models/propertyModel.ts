@@ -2,9 +2,11 @@ interface PropertyModel {
     name: string,
     location: string,
     title: string,
-    size: string,
+    size: number,
     about: string,
-    image: any
+    image: any,
+    landmark: string,
+    propertyFeatures: string
 }
 
 export default PropertyModel
