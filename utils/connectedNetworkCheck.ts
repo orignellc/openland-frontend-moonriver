@@ -5,10 +5,13 @@ const connectedNetworkCheck = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const { chainId } = await provider.getNetwork()
 
+    if (typeof window === "undefined") return
+
     if (chainId !== 1285) {
+        localStorage.removeItem("openland-user")
         try {
             // @ts-ignore
-            const response = await window.ethereum.request({
+            window.ethereum.request({
                 method: 'wallet_addEthereumChain',
                 params: [{
                     chainId: '0x505',
@@ -21,16 +24,18 @@ const connectedNetworkCheck = async () => {
                     rpcUrls: ['https://rpc.moonriver.moonbeam.network/'],
                     blockExplorerUrls: ['https://blockscout.moonriver.moonbeam.network/']
                 }]
+            }).then((response: any) => {
+                console.log("RESPONSE", response)
+                window.location.reload()
+                return response
             })
-            console.log("RESPONSE", response)
-            return response
         } catch (error: any) {
+            window.location.reload()
             console.log("ERROR", error)
-            if (typeof window !== "undefined") {
-                alert("Please connect to moon river")
-            }
             return error
         }
+    } else {
+        // window.location.reload()
     }
 }
 

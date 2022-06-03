@@ -6,10 +6,13 @@ import {
   useState,
   useReducer,
 } from "react";
+import isAuthenticated from "../utils/isAuthenticated";
+
+const userFromStorage = typeof window !== "undefined" ? !!localStorage.getItem("openland-user") && JSON.parse(localStorage.getItem("openland-user")) : null
 
 // STATE
 const intialState = {
-  user: null,
+  user: userFromStorage
 };
 
 // CREATE CONTEXT

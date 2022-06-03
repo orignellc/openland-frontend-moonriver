@@ -4,6 +4,7 @@ import { Web3Storage } from "web3.storage"
 import * as ethers from "ethers";
 import { useRouter } from "next/router";
 import { Range, getTrackBackground } from "react-range";
+import { Tag, WithContext as ReactTags } from 'react-tag-input';
 
 import { uploadPropertyToIpfs } from "../../services/uploadPropertyToIpfs"
 import makeFilesObject from "../../utils/makeFilesObject"
@@ -16,6 +17,8 @@ import FractionSalesModal from "../../components/FractionSalesModal/FractionSale
 
 import PropertyModel from "../../models/propertyModel";
 import { NFT_ADDRESS } from "../../constants/contractAddresses";
+import Alert from "../../components/ui/Alert/Alert";
+import AlertModel from "../../models/AlertModel";
 const NFT_ABI = require("../../abi/nftabi.json")
 
 interface UploadPropertyModal {
@@ -31,11 +34,14 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
   const [successUpload, setSuccessUpload] = useState(false)
   const [minting, setMinting] = useState(false)
   const [showUploadedProperties, setShowUploadedProperties] = useState(false)
-  const [showFractionSalesModal, setShowFractionSalesModal] = useState(false)
+  const [imagePrev, setImagePreview] = useState<any>()
   const [info, setInfo] = useState(true)
   const [localImageUrl, setLocalImageUrl] = useState<any>()
   const [percentageToFractionalize, setPercentageToFractionalize] = useState([0.01]);
   const [data, setFormData] = useState<PropertyModel>(intialFormState)
+  const [showAlert, setShowAlert] = useState<AlertModel>({ message: "", show: false, timer: 5000, variant: "danger" })
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [featureTags, setFeatureTags] = useState<Tag[]>([]);
 
   const router = useRouter()
 
@@ -46,26 +52,55 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
     formState: { errors },
   } = useForm<PropertyModel>();
 
+  const handleAddition = (tag: Tag) => {
+    setTags([...tags, tag]);
+  };
+  const handleDelete = (i: number) => {
+    setTags(tags.filter((tag, index) => index !== i));
+  };
+  const handleAdditionFeatures = (tag: Tag) => {
+    setFeatureTags([...featureTags, tag]);
+  };
+  const handleDeleteFeatures = (i: number) => {
+    setFeatureTags(featureTags.filter((tag, index) => index !== i));
+  };
+
+  const KeyCodes = {
+    comma: 188,
+    enter: 13
+  };
+
+  const delimiters = [KeyCodes.comma, KeyCodes.enter];
+
   const formSubmitHandler = async () => {
+    if (data.size <= 0) {
+      setShowAlert({ message: "Size must be a valid number", show: true, timer: 5000, variant: "danger" })
+      return
+    }
+
     setMinting(true)
     // 1_ IMAGE UPLOAD
     const storage = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN! })
 
     if (!localImageUrl) return alert("Please select an image")
-    const imageFile = makeFilesObject({ localImageUrl }, "image-url.json")
 
-    const cid = await storage.put(imageFile)
-    const imageUrl = `https://dweb.link/ipfs/${cid}`
+    console.log(localImageUrl);
+
+    const cid = await storage.put([localImageUrl])
+    const imageUrl = `https://dweb.link/ipfs/${cid}/${localImageUrl.name}`
+
+    // console.log(imageUrl);
+
 
     const formattedData = makeFilesObject(
-      { ...data, percentageToFractionalize: percentageToFractionalize[0], image: imageUrl },
+      { ...data, landmark: tags, propertyFeatures: featureTags, percentageToFractionalize: percentageToFractionalize[0], image: imageUrl },
       "property-details.json"
     )
 
-    // 2_ SEND DATA TO IPFS
+    // // 2_ SEND DATA TO IPFS
     const urlResponse = await uploadPropertyToIpfs(formattedData)
 
-    // 3_ MINT Property   
+    // // 3_ MINT Property   
     const signer = await new GetWeb3Signer().getSigner()
 
     const nftContract = new ethers.Contract(NFT_ADDRESS, NFT_ABI, signer)
@@ -89,19 +124,28 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
   }
 
   const toggleShowUploadedProperties = () => setShowUploadedProperties(true)
-  const toggleShowFractionSalesModal = () => setShowFractionSalesModal(true)
+
+  useEffect(() => {
+    if (localImageUrl) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result)
+      }
+      reader.readAsDataURL(localImageUrl)
+    } else {
+      setImagePreview(null)
+    }
+  }, [localImageUrl])
 
   return (
     <>
       <Backdrop showBackdrop={confirmationModal}>
-        <UploadPropertyConfirmationModal minting={minting} formSubmitHandler={formSubmitHandler} />
+        <UploadPropertyConfirmationModal cancelFormSubmit={() => setConfirmationModal(false)} minting={minting} formSubmitHandler={formSubmitHandler} />
       </Backdrop>
       <Backdrop showBackdrop={successUpload}>
         <PropertyUploadSuccessModal toggleShowUploadedProperties={toggleShowUploadedProperties} />
       </Backdrop>
-      <Backdrop showBackdrop={successUpload}>
-        <FractionSalesModal toggleShowFractionSalesModal={toggleShowFractionSalesModal} />
-      </Backdrop>
+      <Alert setShowAlert={setShowAlert} showAlert={showAlert} />
       <div className="px-4 lg:px-[134px] py-10 lg:py-[137px] top-0 left-0 fixed z-[60] bg-white w-screen h-screen overflow-y-scroll">
         <div className="flex justify-between">
           <div />
@@ -112,7 +156,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
             className="cursor-pointer"
           />
         </div>
-        <Tabs />
+        <Tabs activeTab="ChooseProperty" />
 
         <form
           onSubmit={handleSubmit((data) => {
@@ -178,7 +222,7 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
               <label className="font-medium text-[#1C2420] mb-[6px]" htmlFor="What is the total size of your property? *">
                 What is the total size of your property? *
               </label>
-              <input type="number" {...register("size", {
+              <input min={0} type="number" {...register("size", {
                 required: "Please specify the size of your property in SQM",
               })}
                 id="What is the total size of your property? *" className="border border-[#D6D6DD] rounded-[4px] shadow-sm focus:outline-none px-2 py-2" />
@@ -190,14 +234,16 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
               )}
             </div>
 
-            <div className="flex items-start flex-col">
+            <div className="flex items-start relative flex-col">
               <p className="text-left">How many do you want to fractionalize? *</p>
-
               <RangeComponent
                 percentageToFractionalize={percentageToFractionalize}
                 setPercentageToFractionalize={setPercentageToFractionalize}
               />
-              <span>50%</span>
+              <div className="flex justify-between items-center w-full">
+                <span>50%</span>
+                <span className="bg-gray-900 py-2 px-4 rounded-md font-bold text-white">{percentageToFractionalize[0]} %</span>
+              </div>
             </div>
           </div>
 
@@ -225,46 +271,32 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
             <label htmlFor="landmark" className="mb-[6px]">
               What are the Landmarks? *
             </label>
-            <textarea
-              id=""
-              cols={30}
-              rows={2.5}
-              className="border border-[#D6D6DD] focus:outline-none p-5"
-              {...register("landmark", {
-                required: "Please what are the landmarks associated with the property",
-              })}
+            <ReactTags
+              tags={tags}
+              delimiters={delimiters}
+              handleDelete={handleDelete}
+              handleAddition={handleAddition}
+              inputFieldPosition="bottom"
             />
-            {errors.landmark && (
-              <p className="text-red-500 text-xs italic">
-                {errors.landmark.message}
-              </p>
-            )}
           </div>
 
           <div className="flex flex-col mb-6">
             <label htmlFor="propertyFeatures" className="mb-[6px]">
               What are the Estate Features? *
             </label>
-            <textarea
-              id=""
-              cols={30}
-              rows={2.5}
-              className="border border-[#D6D6DD] focus:outline-none p-5"
-              {...register("propertyFeatures", {
-                required: "Please list property features",
-              })}
+            <ReactTags
+              tags={featureTags}
+              delimiters={delimiters}
+              handleDelete={handleDeleteFeatures}
+              handleAddition={handleAdditionFeatures}
+              inputFieldPosition="bottom"
             />
-            {errors.propertyFeatures && (
-              <p className="text-red-500 text-xs italic">
-                {errors.propertyFeatures.message}
-              </p>
-            )}
           </div>
 
 
           <div className="flex flex-col mb-10">
             <label htmlFor="upload-image" className="mb-[6px]">
-              <p className="mb-2">Upload photos *</p>
+              <p className="mb-2">Upload photo *</p>
               <input
                 id="upload-image"
                 className="hidden"
@@ -272,18 +304,20 @@ const UploadProperty: FC<UploadPropertyModal> = (props) => {
                 onChange={captureFile}
               />
               <div className="w-full text-center grid place-content-center h-[200px] border border-[#D6D6DD] cursor-pointer border-dotted">
-                <img
-                  src="/assets/images/svg/img.svg"
-                  className="w-9 h-9 mx-auto mb-4"
-                  alt="img"
-                />
-                <p className="font-medium text-[#555555] mb-1">
-                  <span className="text-[#0FB95D]">Upload a file</span> or drag
-                  and drop
-                </p>
-                <p className="text-[#999999]">
-                  PNG, JPG, GIF up to 10MB for each{" "}
-                </p>
+                {imagePrev ? <img src={imagePrev} className="w-full h-[200px]" /> : <>
+                  <img
+                    src="/assets/images/svg/img.svg"
+                    className="w-9 h-9 mx-auto mb-4"
+                    alt="img"
+                  />
+                  <p className="font-medium text-[#555555] mb-1">
+                    <span className="text-[#0FB95D]">Upload a file</span> or drag
+                    and drop
+                  </p>
+                  <p className="text-[#999999]">
+                    PNG, JPG, GIF up to 10MB for each{" "}
+                  </p>
+                </>}
               </div>
             </label>
           </div>
@@ -389,7 +423,7 @@ const RangeComponent: FC<RangeComponentProps> = (props) => {
       renderThumb={({ props, isDragged }) => (
         <div
           {...props}
-          className="h-[14px] w-[14px] rounded-[50%] bg-white outline-none"
+          className="h-[14px] w-[14px] rounded-[50%] bg-[#0FB95D] outline-none"
         />
       )}
     />

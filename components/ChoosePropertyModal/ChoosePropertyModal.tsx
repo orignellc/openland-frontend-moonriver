@@ -18,6 +18,8 @@ const ChoosePropertyModal: FC<ChoosePropertyModalProps> = (props) => {
 
   const router = useRouter()
 
+  const userWalletAddress = typeof window !== "undefined" && window.ethereum.selectedAddress
+
   if (!showChoosePropertyModal) return <></>;
 
   return (
@@ -43,7 +45,9 @@ const ChoosePropertyModal: FC<ChoosePropertyModalProps> = (props) => {
         </p>
       </div>
 
-      <div className="flex max-w-[343px] lg:max-w-full mx-auto place-content-center mb-3 cursor-pointer hover:scale-105 duration-200">
+      <div
+        onClick={() => router.push(`${userWalletAddress}/uploaded-properties`)}
+        className="flex max-w-[343px] lg:max-w-full mx-auto place-content-center mb-3 cursor-pointer hover:scale-105 duration-200">
         <div className="border border-[#999999] py-8 px-6 lg:px-[70px] w-[793px] rounded-2xl flex justify-between items-start">
           <div className="w-[253px] mx-auto sm:w-[230px] lg:w-[519px]">
             <h5 className="font-medium text-2xl">Uploaded Property</h5>

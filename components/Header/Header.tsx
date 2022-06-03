@@ -34,6 +34,7 @@ const Header: FC<HeaderProps> = (props) => {
   const [showDropdown, setShowdropdown] = useState(false);
   const [showConnectWalletModal, setShowConnectWalletModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [newUser, setNewUser] = useState(false);
 
   const toggleShowdropdown = () => setShowdropdown((prevState) => !prevState);
   const toggleConnectWalletModal = () =>
@@ -55,34 +56,25 @@ const Header: FC<HeaderProps> = (props) => {
     // CHECK CONNECTED NETWORK
     try {
       await connectedNetworkCheck()
+
+      typeof window !== "undefined" && localStorage.setItem("openland-user", JSON.stringify(accounts[0]))
+
       dispatch({
         type: "LOGGED_IN_USER",
         payload: accounts[0]
       })
+
+      typeof window !== "undefined" && window.location.reload()
+
     } catch (error) {
       alert("Please add moonbase network to continue")
     }
     setShowConnectWalletModal(false)
   };
 
-  const connectWallet = async () => {
-    if (typeof window !== "undefined") {
-      // @ts-ignore
-      if (!window.ethereum) { // Checking if the user has metamask
-        return alert("Please you need to have metamask installed");
-      }
-
-      await connectToMetamask();
-      // @ts-ignore
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      // @ts-ignore
-      // console.log(ethers.providers.getNetwork(0x505))
-    }
-  }
-
-  // useEffect(() => {
-  //   connectWallet()
-  // }, [])
+  useEffect(() => {
+    setNewUser(user)
+  }, [])
 
   return (
     <>
@@ -151,16 +143,16 @@ const Header: FC<HeaderProps> = (props) => {
                 </li>
               </ul>
             </li>
-            {!user && (
+            {!newUser && (
               <li className="hidden lg:block mx-10">
                 <Button onClick={toggleConnectWalletModal} btnType="fill">
                   Connect wallet
                 </Button>
               </li>
             )}
-            {user && (
+            {newUser && (
               <li className="hidden lg:block mx-[17px]">
-                <Button link="/choose-property" btnType="outline">
+                <Button link="properties" btnType="outline">
                   Buy Fractions
                 </Button>
               </li>
@@ -168,7 +160,7 @@ const Header: FC<HeaderProps> = (props) => {
             <li className="2xl:w-[52px] mr-[19px] w-[47px] h-[47px] 2xl:h-[52px] rounded-[100px] bg-[#F7F8F8] grid place-content-center overflow-hidden">
               <Image src={SettingGear} alt="settings" width="22" height="22" />
             </li>
-            {user && (
+            {newUser && (
               <li className="2xl:w-[52px] w-[44px] rounded-[50%] overflow-hidden h-[44px] 2xl:h-[52px]">
                 <Link href="#">
                   <img
@@ -188,6 +180,7 @@ const Header: FC<HeaderProps> = (props) => {
           </ul>
         </ul>
       </nav>
+
     </>
   );
 };

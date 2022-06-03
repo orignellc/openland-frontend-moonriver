@@ -22,7 +22,9 @@ const Wrapper: FC<WrapperProps> = (props) => {
   return (
     <>
       <Sidenav toggleSidenav={toggleSidenav} showSidenav={showSidenav} />
+
       <Header toggleSidenav={toggleSidenav} />
+
       <ChoosePropertyModal showChoosePropertyModal={showChoosePropertyModal} toggleChoosePropertyModal={toggleChoosePropertyModal} togglePropertyModal={togglePropertyModal} />
       <main className="pt-[93px]">{children}</main>
       <Footer />

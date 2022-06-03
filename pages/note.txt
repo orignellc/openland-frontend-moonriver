@@ -1,0 +1,26 @@
+1_ Update Metamask connection in header
+2_ Check User connection to logout USER
+3_ Uploaded property when choosing property. DONE
+4_ image preview. DONE
+5_ Number shoud not be negative DONE
+6_ Fix range picker
+7_ tag input for property Upload DONE STYLING
+8_ Image preview. DONE
+9_ Disable button when performing an action DONE
+
+Step 1 - Mint Property
+Step 2 - Redirect User to List Property
+Step 3 - Choose NFT to Fractionalize
+Step 4 - Show Fractionalize Success and notification to Fractionalize on Sushi swap 
+
+Provide liquidity for fractions
+Add liquidity on Sushi Swap so that users can buy your fractions.
+[Enable Sales]
+
+ON DISCONNECT --- REMOVE USER AND RELOAD PAGe
+  // @Todo
+  ?? progrss bar should be 100&
+
+
+
+AUTO IMPORT TOKEN IN WALLET

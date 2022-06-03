@@ -12,14 +12,35 @@ import PropertiesCard from "../components/PropertiesCard/PropertiesCard";
 import Button from "../components/ui/Button/Button";
 import TeamCard from "../components/TeamCard/TeamCard";
 import ChoosePropertyModal from "../components/ChoosePropertyModal/ChoosePropertyModal";
+import connectedNetworkCheck from "../utils/connectedNetworkCheck";
+import isAuthenticated from "../utils/isAuthenticated";
+import Alert from "../components/ui/Alert/Alert";
+import AlertModel from "../models/AlertModel";
 
 const Home: NextPage = () => {
   const [showChoosePropertyModal, setShowChoosePropertyModal] = useState(false);
   const [showUploadPropertyModal, setShowUploadPropertyModal] = useState(false);
+  const [showAlert, setShowAlert] = useState<AlertModel>({ message: "", show: false, timer: 0, variant: "danger" });
 
-  const toggleChoosePropertyModal = () =>
-    setShowChoosePropertyModal((prevState) => !prevState);
+  const toggleChoosePropertyModal = async () => {
+    if (!isAuthenticated()) {
+      alert("Please Connect Metamask")
+      // setShowAlert({ message: "Please Connect Metamask", show: true, timer: 6000, variant: "danger" })
+      return
+    }
+    try {
+      await connectedNetworkCheck()
+      setShowChoosePropertyModal((prevState) => !prevState);
+    } catch (error) {
+
+    }
+  }
   const togglePropertyModal = () => {
+    if (!isAuthenticated()) {
+      alert("Please Connect Metamask")
+      // setShowAlert({ message: "Please Connect Metamask", show: true, timer: 6000, variant: "danger" })
+      return
+    }
     setShowChoosePropertyModal(false);
     setShowUploadPropertyModal((prevState) => !prevState);
   };
@@ -38,6 +59,8 @@ const Home: NextPage = () => {
         toggleChoosePropertyModal={toggleChoosePropertyModal}
         showChoosePropertyModal={showChoosePropertyModal}
       />
+
+      <Alert setShowAlert={setShowAlert} showAlert={showAlert} />
 
       {/* HERO SECTION */}
       <header className="w-full h-[80vh] lg:h-[100vh] grid place-content-center bg-no-repeat bg-cover bg-[url('/assets/images/png/hero.png')]">
@@ -93,11 +116,11 @@ const Home: NextPage = () => {
           actual ownership figures in a particular vault.
         </p>
         <div className="flex-col lg:flex-row flex w-full lg:w-[550px] mx-auto justify-between">
-          <Button link="#" btnType="fill">
+          <Button onClick={toggleChoosePropertyModal} btnType="fill">
             List your property
           </Button>
           <div className="mb-4 lg:mb-0 lg:hidden" />
-          <Button link="#" btnType="outline">
+          <Button link="/properties" btnType="outline">
             Explore Properties
           </Button>
         </div>
@@ -116,7 +139,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className="hidden lg:block">
-            <Button link="#" btnType="outline-white">
+            <Button link="/properties" btnType="outline-white">
               View all
             </Button>
           </div>
@@ -307,20 +330,3 @@ const styles = {
 };
 
 export default Home;
-
-
-
-// - Use the right avatar
-// - Add team picture
-// - Make connect to wallet modal compact
-// - Connect to wallet flow to only Moonbase Alpha TestNet
-// - IPFS Upload using web3.storage following Opensea Metadata spec 
-
-// - Step one: User clicks on connect
-// - Step Two: User clicks on connect with Metamask
-// - Step Three: COnnect user to Metamask
-// - Step 4: Check the ethereum.netwrokversion = moonriver network id
-// - Step 5: If it is moonriver network ID, do nothing else add moonriver network to user metamask
-
-// STORE THE DETAILS ON THE API
-// MINT THE PROPERTY AND STORE IT ON THE API BACKEND...

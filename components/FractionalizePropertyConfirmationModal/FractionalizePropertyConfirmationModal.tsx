@@ -1,7 +1,7 @@
 import { FC } from "react"
 
 interface FractionalizePropertyConfirmationModalProps {
-    handleFractionalize: () => void
+    handleFractionalize: () => Promise<void>
 }
 
 const FractionalizePropertyConfirmationModal: FC<FractionalizePropertyConfirmationModalProps> = (props) => {

@@ -1,38 +1,47 @@
 import { FC } from "react";
 
 interface PropertiesCardProps {
-  property: {
-    image: string;
-    name: string;
-    location: string;
-    amountPerFraction: string;
-    sqm: string;
-    fraction: string;
-    fractionLeft: string;
-    verificationStatus?: boolean
-  };
+  // property: {
+  //   image: string;
+  //   name: string;
+  //   location: string;
+  //   amountPerFraction: string;
+  //   sqm: string;
+  //   fraction: string;
+  //   fractionLeft: string;
+  //   verificationStatus?: boolean
+  // };
+  property: any,
   verificationBadge?: boolean;
   uploadedProperty?: boolean;
-  propertyDetailsHandler?: () => void
+  propertyDetailsHandler?: (tokenId: number) => void
 }
 
 const PropertiesCard: FC<PropertiesCardProps> = (props) => {
   const {
     property: {
+      about,
       image,
-      name,
+      landmark,
       location,
-      amountPerFraction,
-      sqm,
-      fraction,
-      fractionLeft,
-      verificationStatus
+      name,
+      percentageToFractionalize,
+      propertyFeatures,
+      size,
+      title,
+      tokenId
+      // amountPerFraction,
+      // sqm,
+      // fraction,
+      // fractionLeft,
+      // verificationStatus
     },
     verificationBadge,
     uploadedProperty,
     propertyDetailsHandler
   } = props;
-  
+
+  const verificationStatus = true
 
   return (
     <div>
@@ -42,7 +51,7 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
         </div>}
         <img
           src={image}
-          alt="land"
+          alt={name}
           className="w-full h-full object-cover hover:scale-105 duration-500"
         />
 
@@ -51,29 +60,34 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
           className="absolute p-[24px] text-white z-10 h-[194px] bg-[rgba(255,255,255,0.3)] w-full bottom-0 left-0"
         >
           <div className="flex justify-between mb-4">
-            <h3 className="font-semibold text-3xl">{name}</h3>
+            <h3 className="font-semibold text-3xl">{name.substring(0, 7) + "..."}</h3>
             <img
               src="/assets/images/svg/arrow-right.svg"
               alt="feature"
               className="w-[24px] h-[30px]"
             />
           </div>
-          <p className="font-medium text-base text-center flex justify-start mb-1">{location}</p>
+          <p className="font-medium text-base text-left flex justify-start mb-1">{location}</p>
           <div className="flex justify-between mb-1">
             <p className="font-extrabold text-base">
-              ${amountPerFraction} / fraction
+              ${20} / fraction
             </p>
-            <p className="font-semibold text-base">{sqm}sqm</p>
+            <p className="font-semibold text-base">{size}sqm</p>
           </div>
           <p className="flex justify-start">
-            {fractionLeft} out of {fraction} fractions left
+            {10} out of {15} fractions left
           </p>
         </div>
 
       </div>
       {
-        uploadedProperty &&
-        <button disabled={!verificationStatus} onClick={propertyDetailsHandler} className="disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed disabled:hover:shadow-none mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">Choose</button>
+        uploadedProperty && propertyDetailsHandler &&
+        <button
+          disabled={!verificationStatus}
+          onClick={() => propertyDetailsHandler(tokenId)}
+          className="disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed disabled:hover:shadow-none mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">
+          Choose
+        </button>
       }
     </div>
   );
