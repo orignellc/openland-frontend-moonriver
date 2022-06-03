@@ -2,8 +2,6 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
-import { MoralisProvider } from "react-moralis";
-import { Moralis } from "moralis";
 import { useContext, useEffect, useState } from "react";
 
 import Layout from "../components/HOC/Layout/Layout";
@@ -22,9 +20,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [showAlert, setShowAlert] = useState<AlertModel>({ message: "", show: false, timer: 0, variant: "danger" })
 
   if (typeof window !== "undefined") {
-    window.ethereum.on('disconnect', () => {
-      localStorage.removeItem("openland-user")
-      window.location.reload()
+
+    window.ethereum.on('accountsChanged', (accounts: string[]) => {
+      if (!accounts[0]) {
+        localStorage.removeItem("openland-user")
+        window.location.reload()
+      }
     });
 
     window.ethereum.on('networkChanged', async () => {

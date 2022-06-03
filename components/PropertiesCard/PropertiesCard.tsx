@@ -43,6 +43,11 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
 
   const verificationStatus = true
 
+  const clickHandler = (tokenId: number) => {
+    typeof window !== "undefined" && localStorage.setItem("openland-image-url", image)
+    propertyDetailsHandler && propertyDetailsHandler(tokenId)
+  }
+
   return (
     <div>
       <div className={styles.propertiesCardContainer}>
@@ -84,7 +89,7 @@ const PropertiesCard: FC<PropertiesCardProps> = (props) => {
         uploadedProperty && propertyDetailsHandler &&
         <button
           disabled={!verificationStatus}
-          onClick={() => propertyDetailsHandler(tokenId)}
+          onClick={() => clickHandler(tokenId)}
           className="disabled:text-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed disabled:hover:shadow-none mb-9 w-full text-[#0FB95D] hover:shadow-[#0FB95D] hover:shadow-sm border rounded-[50px] py-[16.5px] border-[#0FB95D]">
           Choose
         </button>

@@ -80,6 +80,7 @@ const FractionalizeProperty = () => {
     const [creatingVault, setCreatingVault] = useState(false)
     const [createVaultSuccess, setCreateVaultSuccess] = useState(false)
     const [values, setValues] = useState([10]);
+    const [imageFromStorage, setImageFromStorage] = useState("");
     const [inputData, setInputData] = useState({ vaultName: "", tokenSupply: 0, tokenSymbol: "", reservedPrice: 0 })
     const [showAlert, setShowAlert] = useState<AlertModel>({ message: "", show: false, timer: 0, variant: "success" })
 
@@ -88,6 +89,13 @@ const FractionalizeProperty = () => {
     const toggleCreatingVaultSuccess = () => {
         setCreateVaultSuccess(prevState => !prevState)
     }
+
+    useEffect(() => {
+        const imageFromLocalStorage = localStorage.getItem("openland-image-url")
+        const imageUrl = imageFromLocalStorage ? imageFromLocalStorage : ""
+        setImageFromStorage(imageUrl)
+    }, [])
+
     const userWalletAddress = typeof window !== "undefined" && window.ethereum.selectedAddress
 
     const handleFractionalize = async () => {
@@ -193,7 +201,7 @@ const FractionalizeProperty = () => {
                 <div className="flex flex-col lg:flex-row justify-between">
                     <div>
                         <PropertiesCard property={{
-                            image: "/assets/images/png/Image-1.png",
+                            image: imageFromStorage,
                             name: "Angol Estate",
                             location: "Epe, Lagos",
                             amountPerFraction: "20",
