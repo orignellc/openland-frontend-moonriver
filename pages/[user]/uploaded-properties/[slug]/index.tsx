@@ -121,7 +121,6 @@ const FractionalizeProperty = () => {
 
             const { vaultName, tokenSymbol, reservedPrice, tokenSupply } = inputData
             const tokenId = window && window.location.pathname.split("/")[3]
-
             const mintFactoryResponse = await factoryContract.mint(
                 vaultName,
                 tokenSymbol,
@@ -131,16 +130,9 @@ const FractionalizeProperty = () => {
                 parseEther(`${tokenSupply}`), //Price of the property(NFT) in MOVR
                 values[0] //the AUM fee paid to the curator yearly. 3 decimals. ie. 100 = 10%, 20 = 2%, etc.
             )
-
             await mintFactoryResponse.wait()
             // Alert Notification
             setShowAlert({ message: "Listing of token successful", show: true, timer: 5000, variant: "success" })
-            // We listen to events
-            // logthe event 
-
-            // provider.on("pending", (tx) => {
-            // Emitted when any new pending transaction is noticed
-            // });
             // Address of the vault minted... id of the vault... // To Save...(Address...) { _id: metaMaskaddress, vault: { erc20TokenMintedAddress: "event", vaultAddress: "event", vaultId: "event" } }
 
             const filter = {
@@ -149,15 +141,14 @@ const FractionalizeProperty = () => {
                     ethers.utils.id("Mint(address,uint256,uint256,address,uint256)")
                 ]
             }
-
             // console.log("MINT FACTORY RESPONSE ==>", mintFactoryResponse);
             const web3modal = new Web3Modal()
             const connection = await web3modal.connect()
             const provider = new ethers.providers.Web3Provider(connection)
 
             provider.on(filter, (log, event) => {
-                console.log(log);
-                console.log(event);
+                console.log("LOG RESPONSE", log);
+                console.log("EVENT RESPONSE", event);
             })
         } catch (error: any) {
             setShowAlert({ message: error.message, show: true, timer: 5000, variant: "danger" })
