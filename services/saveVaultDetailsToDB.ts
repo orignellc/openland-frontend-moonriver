@@ -13,12 +13,15 @@ interface VaultObject {
     };
 }
 
-const saveVaultDetailsToDB = async (vault: VaultObject) => {
+const saveVaultDetailsToDB = async (vaultObject: VaultObject) => {
     // Simple Validation before sending to DB
-    const { _id, vault: { token_address, token_id, token_price, vault_address, vault_id } } = vault;
+    const { _id, vault: { token_address, token_id, token_price, vault_address, vault_id } } = vaultObject;
 
     // @TODO create a validation UTILITY file to validate
+
     try {
+        const { data } = await axios.post(API_ENDPOINT, vaultObject)
+        return data;
         // Discuss with the server
     } catch (error: any) {
         return error;

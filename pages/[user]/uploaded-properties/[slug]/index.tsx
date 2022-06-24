@@ -17,6 +17,7 @@ import GetWeb3Signer from "../../../../utils/getWeb3Signer";
 import { FACTORY_ADDRESS, NFT_ADDRESS } from "../../../../constants/contractAddresses";
 import Alert from "../../../../components/ui/Alert/Alert";
 import AlertModel from "../../../../models/AlertModel";
+import saveVaultDetailsToDB from "../../../../services/saveVaultDetailsToDB";
 const FACTORY_ABI = require("../../../../abi/erc721valutfactory.json")
 const NFT_ABI = require("../../../../abi/nftabi.json")
 
@@ -168,7 +169,7 @@ const FractionalizeProperty = () => {
 
                 console.log("THE EVENT LOG", eventLog);
 
-                const params = {
+                const valutObject = {
                     token_address: eventLog["token"], // The address of the ERC20 token minted for the vault
                     token_id: eventLog["id"].toString(), // The ERC 721 token locked in the vault the uint256 ID of the token
                     token_price: eventLog["price"].toString(), // Price of each token in wei
@@ -176,7 +177,12 @@ const FractionalizeProperty = () => {
                     vault_id: eventLog["vaultId"], // The Id of the vault in the factpry contract which can be accessed as await factory.vaults(vaultId) and returns the vault address
                 };
 
+                const valutObjectToDB = {
+                    _id: "A STRING",
+                    vault: valutObject
+                }
                 // Save to backend
+                saveVaultDetailsToDB(valutObjectToDB)
             })
 
             // Address of the vault minted... id of the vault... // To Save...(Address...) { _id: metaMaskaddress, vault: { erc20TokenMintedAddress: "event", vaultAddress: "event", vaultId: "event" } }

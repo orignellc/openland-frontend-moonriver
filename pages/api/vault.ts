@@ -7,13 +7,17 @@ export default async function handler(
 ) {
   try {
     // Insert into the database
-    const { _id, vault: { erc20TokenMintedAddress, vaultAddress, vaultId } } = req?.body
+    // const { _id, vault: { erc20TokenMintedAddress, vaultAddress, vaultId } } = req?.body
+    console.log(req.body);
 
     // Validation
 
     // Save to DB
 
     // Send response
+    res.status(200).json({
+      data: "success",
+    })
 
   } catch (error) {
     res.status(400).json({
