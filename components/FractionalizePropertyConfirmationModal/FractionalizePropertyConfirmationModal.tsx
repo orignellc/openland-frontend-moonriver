@@ -1,11 +1,12 @@
-import { FC } from "react"
+import { Dispatch, FC, SetStateAction } from "react"
 
 interface FractionalizePropertyConfirmationModalProps {
     handleFractionalize: () => Promise<void>
+    setFractionalize: Dispatch<SetStateAction<boolean>>
 }
 
 const FractionalizePropertyConfirmationModal: FC<FractionalizePropertyConfirmationModalProps> = (props) => {
-    const { handleFractionalize } = props
+    const { handleFractionalize, setFractionalize } = props
 
     return (
         <div className="text-center py-9 bg-white rounded-2xl px-[70px]">
@@ -17,7 +18,11 @@ const FractionalizePropertyConfirmationModal: FC<FractionalizePropertyConfirmati
 
             <div className="grid place-content-center mb-28">
                 <div className="flex">
-                    <button className="py-[9px] px-[46px] lg:px-[57px] border font-medium mr-[14px] text-sm rounded-md border-[#D1D5DB]">Cancel</button>
+                    <button
+                        onClick={() => setFractionalize(prevState => !prevState)}
+                        className="py-[9px] px-[46px] lg:px-[57px] border font-medium mr-[14px] text-sm rounded-md border-[#D1D5DB]"
+                    >Cancel
+                    </button>
                     <button onClick={handleFractionalize} className="py-[9px] px-[46px] lg:px-[57px] border font-medium text-sm text-white rounded-md bg-[#0FB95D]">Fractionalize</button>
                 </div>
             </div>

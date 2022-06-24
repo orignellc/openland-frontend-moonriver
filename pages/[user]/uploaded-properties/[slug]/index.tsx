@@ -115,12 +115,15 @@ const FractionalizeProperty = () => {
 
             if (approvalResponse) setShowAlert({ message: "Token has been locked successfully", show: true, timer: 5000, variant: "success" })
 
+            await approvalResponse.wait()
+
             console.log("APPROVAL RESPONSE ==>", approvalResponse);
 
             if (!approvalResponse) return
 
             const { vaultName, tokenSymbol, reservedPrice, tokenSupply } = inputData
             const tokenId = window && window.location.pathname.split("/")[3]
+
             const mintFactoryResponse = await factoryContract.mint(
                 vaultName,
                 tokenSymbol,
@@ -130,10 +133,10 @@ const FractionalizeProperty = () => {
                 parseEther(`${tokenSupply}`), //Price of the property(NFT) in MOVR
                 values[0] //the AUM fee paid to the curator yearly. 3 decimals. ie. 100 = 10%, 20 = 2%, etc.
             )
+
             await mintFactoryResponse.wait()
-            // Alert Notification
-            setShowAlert({ message: "Listing of token successful", show: true, timer: 5000, variant: "success" })
-            // Address of the vault minted... id of the vault... // To Save...(Address...) { _id: metaMaskaddress, vault: { erc20TokenMintedAddress: "event", vaultAddress: "event", vaultId: "event" } }
+
+            console.log("MINT FACTORY RESPONSE ==>", mintFactoryResponse);
 
             const filter = {
                 address: FACTORY_ADDRESS,
@@ -141,15 +144,43 @@ const FractionalizeProperty = () => {
                     ethers.utils.id("Mint(address,uint256,uint256,address,uint256)")
                 ]
             }
-            // console.log("MINT FACTORY RESPONSE ==>", mintFactoryResponse);
+
             const web3modal = new Web3Modal()
             const connection = await web3modal.connect()
             const provider = new ethers.providers.Web3Provider(connection)
 
+            // Listening to the Event Data 
+            // Listening to event / Decoding event
             provider.on(filter, (log, event) => {
-                console.log("LOG RESPONSE", log);
-                console.log("EVENT RESPONSE", event);
+                // console.log("LOG RESPONSE", log);
+                let abi = [
+                    "event Mint(address indexed token, uint256 id, uint256 price, address vault, uint256 vaultId)",
+                ];
+
+                let iface = new ethers.utils.Interface(abi);
+                const data = log.data
+                const topics = [
+                    log.topics[0],
+                    log.topics[1],
+                ];
+
+                const eventLog = iface.decodeEventLog("Mint", data, topics);
+
+                console.log("THE EVENT LOG", eventLog);
+
+                const params = {
+                    token_address: eventLog["token"], // The address of the ERC20 token minted for the vault
+                    token_id: eventLog["id"].toString(), // The ERC 721 token locked in the vault the uint256 ID of the token
+                    token_price: eventLog["price"].toString(), // Price of each token in wei
+                    vault_address: eventLog["vault"], // The contract address of the vault
+                    vault_id: eventLog["vaultId"], // The Id of the vault in the factpry contract which can be accessed as await factory.vaults(vaultId) and returns the vault address
+                };
+
+                // Save to backend
             })
+
+            // Address of the vault minted... id of the vault... // To Save...(Address...) { _id: metaMaskaddress, vault: { erc20TokenMintedAddress: "event", vaultAddress: "event", vaultId: "event" } }
+
         } catch (error: any) {
             setShowAlert({ message: error.message, show: true, timer: 5000, variant: "danger" })
         }
@@ -167,6 +198,7 @@ const FractionalizeProperty = () => {
             <Backdrop showBackdrop={fractionalize}>
                 <FractionalizePropertyConfirmationModal
                     handleFractionalize={handleFractionalize}
+                    setFractionalize={setFractionalize}
                 />
             </Backdrop>
             <Backdrop showBackdrop={creatingVault}>

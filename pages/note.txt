@@ -21,6 +21,20 @@ ON DISCONNECT --- REMOVE USER AND RELOAD PAGe
   // @Todo
   ?? progrss bar should be 100&
 
-
+// @TODO
+How many do you want to fractionalize? *
+Suggessted Features
+Where is the location of your property? * (GOOGLE MAPS)
+Get notified when someones purchases a fraction.
+Kindly note that this property would be made into an NFT (What is an NFT link)
+SOrted by date (Uploaded Tokens)
+10 out of 15 fractions left (...)
 
 AUTO IMPORT TOKEN IN WALLET
+
+
+
+
+
+
+// OPEN LAND FEATURES LEFT FOR THE WEEK
